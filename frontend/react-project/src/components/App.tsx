@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-import { useTodo } from "../hooks/useTodo";
+import { useTodo } from "./useTodo";
 import { Todo } from "../types/Todo";
 import { TodoAdd } from "./TodoAdd";
 import { TodoList } from "./TodoList";
