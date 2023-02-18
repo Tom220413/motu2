@@ -1,10 +1,11 @@
 import axios from "axios";
 import { Todo } from "../types/Todo";
 
-const todoDataUrl = "http://localhost:3100/todos";
+var todoDataUrl = "http://localhost:8080/";
 
 // 全TODOリスト取得
 export const getAllTodosData = async () => {
+    todoDataUrl += "db/list"
     const response = await axios.get(todoDataUrl);
     return response.data;
 };
