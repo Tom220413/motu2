@@ -1,6 +1,7 @@
 import os
 from pymongo import MongoClient, ASCENDING, DESCENDING, UpdateOne, DeleteOne, UpdateMany
 from typing import Optional
+from bson.objectid import ObjectId
 
 
 class DBClient:
@@ -57,5 +58,34 @@ async def get_todos_list():
             )
         return result
     except Exception as e:
+        print("error get_todos_list")
         print(e)
         return e
+
+
+async def upsert_todos_list(param: dict):
+    try:
+        print("upsert_todos_list")
+        db = await get_db()
+        result = db.todos.find_one({"id": param["id"]})
+        if result is None:
+            db.todos.insert(param)
+        else:
+            db.todos.update_one(
+                filter={"id": result["id"]},
+                update={"$set": {"done": param["done"]}},
+                upsert=True,
+            )
+    except Exception as e:
+        print("error post_todos_list")
+        print(e)
+        return e
+
+
+async def delete_todos_list(param: dict):
+    try:
+        print("delete_todos_list")
+        db = await get_db()
+        # db.todos.delete()
+    except Exception as e:
+        print(e)

@@ -12,7 +12,8 @@ export const getAllTodosData = async () => {
 
 // 1件のTODOを追加する
 export const addTodoData = async (todo: Todo) => {
-    const response = await axios.post(todoDataUrl, todo);
+    var postDataUrl = "http://localhost:8080/db/post";
+    const response = await axios.post(postDataUrl, todo);
     return response.data;
 };
 
