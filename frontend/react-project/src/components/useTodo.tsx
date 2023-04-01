@@ -8,47 +8,53 @@ export const useTodo = () => {
     const [todoList, setTodoList] = useState<Todo[]>([]);
 
     useEffect(() => {
-        todoData.getAllTodosData().then((todo) => {
-            console.log(...todo);
-            setTodoList([...todo].reverse());
+        todoData.fetchAllTodos().then((todos) => {
+            // リストを反転してからセットする
+            setTodoList([...todos].reverse());
         });
     }, []);
 
-    // todoのdoneを反転させる
     const toggleTodoListItemStatus = (id: string, done: boolean) => {
-        // todoListから、idが一致する1件を取り出す
-        const todoItem = todoList.find((item: Todo) => item.id === id);
-        // doneを反転させて、新たなitemを作成
-        const newTodoItem: Todo = { ...todoItem!, done: !done };
-        // サーバに更新API呼ぶ
-        todoData.updateTodoData(id, newTodoItem).then((updatedTodo) => {
-            // 成功したら、todoListを更新。idが一致しているものを、サーバーから返ってきたupdatedTodoで更新する
-            const newTodoList = todoList.map((item) => (item.id !== updatedTodo.id ? item : updatedTodo));
-            // 新しいtodoListをstateにセットする
-            setTodoList(newTodoList);
+        // クリックされたアイテムの更新フラグを反転させる
+        const newTodoList = todoList.map((item) =>
+            item.id === id ? { ...item, done: !done } : item
+        );
+        setTodoList(newTodoList);
+
+        // サーバーに更新API呼ぶ
+        todoData.updateTodoData(id, { ...newTodoList.find((item) => item.id === id)! }).catch(() => {
+            // 失敗したら元に戻す
+            setTodoList(todoList);
         });
+
     };
 
     const addTodoListItem = (todoContent: string) => {
-        // あたらしいitemを作成する
-        const newTodoItem = { id: ulid(), content: todoContent, done: false };
+        const newTodoItem: Todo = { id: ulid(), content: todoContent, done: false };
 
-        // サーバーの追加APIを呼ぶ
-        todoData.addTodoData(newTodoItem).then((addTodo) => {
-            // addTodoをtodoListに追加してstateにセットする
-            setTodoList([addTodo, ...todoList]);
-        });
+        // サーバーに追加APIを呼ぶ
+        todoData
+            .createTodo(newTodoItem)
+            .then((addedTodo) => {
+                setTodoList([addedTodo, ...todoList]);
+            })
+            .catch(() => {
+                // 失敗したら元に戻す
+                setTodoList(todoList);
+            });
     };
 
     const deleteTodoListItem = (id: string) => {
-        // サーバーの削除APIを呼ぶ
-        todoData.deleteTodoData(id).then((deletedid) => {
-            const newTodoList = todoList.filter((item) => item.id !== deletedid);
-            // 1件削除された新しいtodoListに追加してstateにセットする
-            setTodoList(newTodoList);
+        // クリックされたアイテムを除いた新しい配列を作成する
+        const newTodoList = todoList.filter((item) => item.id !== id);
+        setTodoList(newTodoList);
+
+        // サーバーに削除APIを呼ぶ
+        todoData.deleteTodo(id).catch(() => {
+            // 失敗したら元に戻す
+            setTodoList(todoList);
         });
     };
 
-    // 作成した関数を返す
     return { todoList, toggleTodoListItemStatus, addTodoListItem, deleteTodoListItem };
 };

@@ -1,30 +1,26 @@
 import axios from "axios";
 import { Todo } from "../types/Todo";
 
-var todoDataUrl = "http://localhost:8080/";
+const API_BASE_URL = "http://localhost:8080/db/";
 
-// 全TODOリスト取得
-export const getAllTodosData = async () => {
-    todoDataUrl += "db/list"
-    const response = await axios.get(todoDataUrl);
+// 全てのTODOリストを取得する
+export const fetchAllTodos = async (): Promise<Todo[]> => {
+    const response = await axios.get<Todo[]>(API_BASE_URL + "list");
     return response.data;
 };
 
 // 1件のTODOを追加する
-export const addTodoData = async (todo: Todo) => {
-    var postDataUrl = "http://localhost:8080/db/post";
-    const response = await axios.post(postDataUrl, todo);
+export const createTodo = async (todo: Todo): Promise<Todo> => {
+    const response = await axios.post<Todo>(API_BASE_URL + "post", todo);
     return response.data;
 };
 
 // 1件のTODOを削除する
-export const deleteTodoData = async (id: string) => {
-    await axios.delete(`${todoDataUrl}/${id}`);
-    return id;
+export const deleteTodo = async (id: string): Promise<void> => {
+    await axios.delete(API_BASE_URL + `delete/${id}`);
 };
 
 // 1件のTODOを更新する
-export const updateTodoData = async (id: string, todo: Todo) => {
-    const response = await axios.put(`${todoDataUrl}/${id}`, todo);
-    return response.data;
+export const updateTodoData = async (id: string, todo: Todo): Promise<void> => {
+    await axios.put(API_BASE_URL + `update/${id}`, todo);
 };

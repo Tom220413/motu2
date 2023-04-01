@@ -82,10 +82,16 @@ async def upsert_todos_list(param: dict):
         return e
 
 
-async def delete_todos_list(param: dict):
+async def delete_todos_list(param: str):
     try:
         print("delete_todos_list")
         db = await get_db()
-        # db.todos.delete()
+        result = db.todos.find_one({"id": param})
+        if result.count() == 0:
+            raise Exception()
+        else:
+            db.todos.deleteOne({"id": param})
+            return True
     except Exception as e:
         print(e)
+        return False
