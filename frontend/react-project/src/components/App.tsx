@@ -9,6 +9,7 @@ import { Map } from "./Map";
 import SearchHeader from './SearchHeader';
 import "./styles.css";
 import ReviewSlider from './ReviewSlider';
+import { Search } from "./Search";
 
 type Tab = {
     id: number;
@@ -46,31 +47,6 @@ function App() {
             />
         );
     };
-    const renderPage = () => {
-
-    }
-    const tabs: Tab[] = [
-        {
-            id: 0,
-            label: "トップ",
-            content: renderTodoList("未完了TODOリスト", incompletedList),
-        },
-        {
-            id: 1,
-            label: "検索",
-            content: renderTodoList("完了TODOリスト", completedList),
-        },
-        {
-            id: 2,
-            label: "ランキング",
-            content: renderTodoList("完了TODOリスト", completedList),
-        },
-        {
-            id: 3,
-            label: "マイページ",
-            content: renderTodoList("完了TODOリスト", completedList),
-        },
-    ];
     const reviews: Review[] = [
         {
             id: 1,
@@ -132,10 +108,52 @@ function App() {
         },
 
     ]
+    const serch = () => {
+        return (
+            <Search />
+        )
+    }
+    const ranking = (rankings: Review[]) => {
+        return (
+            <ReviewSlider reviews={rankings || []} />
+        )
+    }
+    const review = (reviews: Review[]) => {
+        return (
+            <ReviewSlider reviews={reviews || []} />
+        )
+    }
+    const tabs: Tab[] = [
+        {
+            id: 0,
+            label: "トップ",
+            content: renderTodoList("未完了TODOリスト", incompletedList),
+        },
+        {
+            id: 1,
+            label: "検索",
+            content: serch(),
+        },
+        {
+            id: 2,
+            label: "ランキング",
+            content: ranking(rankings),
+        },
+        {
+            id: 3,
+            label: "レビュー",
+            content: review(reviews),
+        },
+        {
+            id: 4,
+            label: "マイページ",
+            content: renderTodoList("完了TODOリスト", completedList),
+        },
+    ];
+
     return (
         <>
             <SearchHeader />
-
             <nav className="tabs">
                 {tabs.map((tab) => (
                     <a
@@ -147,16 +165,9 @@ function App() {
                     </a>
                 ))}
             </nav>
-
             <div className="tab-content">{tabs[activeTab].content}</div>
             <TodoTitle title="レビューを追加" as="h1" />
             <TodoAdd buttonText="+ 投稿" inputEl={inputEl} handleAddTodoListItem={handleAddTodoListItem} />
-            <div>最新のレビュー</div>
-            <ReviewSlider reviews={reviews || []} />
-            <br />
-            <div>ランキング</div>
-            <ReviewSlider reviews={rankings || []} />
-
             {/* <Map /> */}
         </>
     );

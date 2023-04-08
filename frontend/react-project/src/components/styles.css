@@ -2,6 +2,8 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 10px;
+    text-align: center;
+    justify-content: center;
 }
 
 .tabs a {
@@ -21,8 +23,8 @@
 }
 
 .tabs a.active {
-    background-color: #fff;
-    border-bottom-color: #fff;
+    background-color: #c0c0c0;
+    border-bottom-color: #c0c0c0;
 }
 
 .tab-content {
