@@ -6,5 +6,17 @@ class TodosList(BaseModel):
     content: str = Field(..., title="内容")
     done: bool = Field(..., title="完了フラグ", example=False)
 
+
 class deleteTodosList(BaseModel):
     id: str = Field(..., title="ID")
+
+
+class User(BaseModel):
+    usernamr: str = Field(
+        ...,
+        title="Username",
+    )
+    email: str = Field(
+        ..., title="Email", regex="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    )
+    password: str = Field(..., title="Password", regex="^(?=.*\d)[a-zA-Z\d]{8,}$")

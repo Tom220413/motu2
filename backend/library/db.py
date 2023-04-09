@@ -2,6 +2,8 @@ import os
 from pymongo import MongoClient, ASCENDING, DESCENDING, UpdateOne, DeleteOne, UpdateMany
 from typing import Optional
 from bson.objectid import ObjectId
+from models import User
+import hash
 
 
 class DBClient:
@@ -92,6 +94,23 @@ async def delete_todos_list(param: str):
         else:
             db.todos.deleteOne({"id": param})
             return True
+    except Exception as e:
+        print(e)
+        return False
+
+
+async def register(param: User):
+    try:
+        print("register user")
+        db = await get_db()
+        if users.find_one({"username": param.username}):
+            return False
+        if users.find_one({"email": param.email}):
+            return False
+        # パスワードのハッシュ化
+        await hash.hash_password(param.password)
+        users.insert_one(param.dict())
+        return True
     except Exception as e:
         print(e)
         return False

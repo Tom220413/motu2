@@ -1,10 +1,10 @@
 import traceback
 from datetime import timedelta
 
-from fastapi import APIRouter, Path, Query, Body
+from fastapi import APIRouter, Path, Query, Body, HTTPException
 from starlette.responses import JSONResponse
-from library.db import get_todos_list, upsert_todos_list, delete_todos_list
-from library.models import TodosList, deleteTodosList
+from library.db import get_todos_list, upsert_todos_list, delete_todos_list, register
+from library.models import TodosList, deleteTodosList, User
 
 # logger = tools.get_logger(__name__)
 
@@ -47,6 +47,17 @@ async def update_todos_list_api(item_id: str):
 async def delete_todos_list_api(item_id: str):
     try:
         await delete_todos_list(item_id)
+    except Exception as e:
+        return JSONResponse(status_code=500, content=traceback.format_exc())
+    return JSONResponse(status_code=200, content={"msg": "", "code": 0})
+
+
+@router.post("/register", name="ユーザー登録")
+async def register_api(user: User):
+    try:
+        await register(user):
+    except HTTPException as httpe:
+        return JSONResponse(status_code=400, content=traceback.format_exc())
     except Exception as e:
         return JSONResponse(status_code=500, content=traceback.format_exc())
     return JSONResponse(status_code=200, content={"msg": "", "code": 0})
