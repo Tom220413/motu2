@@ -24,6 +24,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.add_middleware(SessionMiddleware, secret_key="SECRET")
+
 
 @app.get("/api")
 async def root(request: Request):
