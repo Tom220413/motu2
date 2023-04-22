@@ -4,6 +4,7 @@ import os
 from fastapi import FastAPI, Request, APIRouter, Path, Query
 from starlette.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 
 from library import db_api
 

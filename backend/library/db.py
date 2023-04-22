@@ -2,8 +2,8 @@ import os
 from pymongo import MongoClient, ASCENDING, DESCENDING, UpdateOne, DeleteOne, UpdateMany
 from typing import Optional
 from bson.objectid import ObjectId
-from models import User
-import hash
+from library.models import User
+import library.hash
 
 
 class DBClient:

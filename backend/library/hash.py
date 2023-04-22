@@ -1,6 +1,5 @@
 import bcrypt
 
-
 async def hash_password(password: str) -> str:
     salt = bcrypt.gensalt(rouds=12)
     bashed_password = bcrypt.hashpw(password.encode("utf-8"), salt)

@@ -55,7 +55,7 @@ async def delete_todos_list_api(item_id: str):
 @router.post("/register", name="ユーザー登録")
 async def register_api(user: User):
     try:
-        await register(user):
+        await register(user)
     except HTTPException as httpe:
         return JSONResponse(status_code=400, content=traceback.format_exc())
     except Exception as e:
