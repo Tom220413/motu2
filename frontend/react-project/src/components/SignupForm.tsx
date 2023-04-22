@@ -6,24 +6,21 @@ function SignupForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleNameChange = (event) => {
+    const handleNameChange = (event: any) => {
         setName(event.target.value);
     };
 
-    const handleEmailChange = (event) => {
+    const handleEmailChange = (event: any) => {
         setEmail(event.target.value);
     };
 
-    const handlePasswordChange = (event) => {
+    const handlePasswordChange = (event: any) => {
         setPassword(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: any) => {
         event.preventDefault();
         // ユーザー登録処理をここに実装する
-
-
-
     };
 
     return (

@@ -1,5 +1,7 @@
 import axios from "axios";
 import { Todo } from "../types/Todo";
+import { User } from "../types/types";
+
 
 const API_BASE_URL = "http://localhost:8080/db/";
 
@@ -34,14 +36,14 @@ export const fetchUsers = () => {
     return apiClient.get('/users');
 }
 
-export const createUser = (data) => {
+export const createUser = (data: User) => {
     return apiClient.post('/users', data);
 }
 
-export const updateUser = (id, data) => {
+export const updateUser = (id: number, data: User) => {
     return apiClient.put(`/users/${id}`, data);
 }
 
-export const deleteUser = (id) => {
+export const deleteUser = (id: number) => {
     return apiClient.delete(`/users/${id}`);
 }

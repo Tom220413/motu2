@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch, useLocation } from 'react-router-dom';
 
 import { useTodo } from "./useTodo";
 import { Todo } from "../types/Todo";
@@ -10,17 +11,12 @@ import SearchHeader from './SearchHeader';
 import "./styles.css";
 import ReviewSlider from './ReviewSlider';
 import { Search } from "./Search";
-
-type Tab = {
-    id: number;
-    label: string;
-    content: JSX.Element;
-}
-type Review = {
-    id: number;
-    author: string;
-    text: string;
-}
+import { Tab, Review, AuthUser } from "../types/types";
+import AuthUserProvider, { useAuthUser } from './AuthUserContext';
+import LogoutPage from './LogoutPage';
+import LoginPage from './LoginPage';
+import HomePage from './HomePage';
+import ProfilePage from './ProfilePage';
 
 
 function App() {
@@ -150,6 +146,27 @@ function App() {
             content: renderTodoList("完了TODOリスト", completedList),
         },
     ];
+    const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
+        const authUser = useAuthUser()
+        const isAuthenticated = authUser != null
+        const { from } = useLocation<{ from: string | undefined }>().state
+        if (isAuthenticated) {
+            console.log(`ログイン済みのユーザーは${props.path}へはアクセスできません`)
+            return <Redirect to={from ?? "/"} />
+        } else {
+            return <Route {...props} />
+        }
+    }
+    const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
+        const authUser = useAuthUser()
+        const isAuthenticated = authUser != null
+        if (isAuthenticated) {
+            return <Route {...props} />
+        } else {
+            console.log(`ログインしていないユーザーは${props.path}へはアクセスできません`)
+            return <Redirect to={{ pathname: "/login", state: { from: props.location?.pathname } }} />
+        }
+    }
 
     return (
         <>
@@ -169,6 +186,17 @@ function App() {
             <TodoTitle title="レビューを追加" as="h1" />
             <TodoAdd buttonText="+ 投稿" inputEl={inputEl} handleAddTodoListItem={handleAddTodoListItem} />
             {/* <Map /> */}
+            <AuthUserProvider>
+                <Router>
+                    <Switch>
+                        <UnAuthRoute exact path="/login" component={LoginPage} />
+                        <UnAuthRoute exact path="/logout" component={LogoutPage} />
+                        <PrivateRoute exact path="/" component={HomePage} />
+                        <PrivateRoute exact path="/profile/:userId" component={ProfilePage} />
+                        <Redirect to="/" />
+                    </Switch>
+                </Router>
+            </AuthUserProvider>
         </>
     );
 }
