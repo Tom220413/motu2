@@ -36,5 +36,5 @@ export type AuthUser = {
 
 export type OperationType = {
     login: (userId: string) => void
-    logout: (userId: string) => void
+    logout: () => void
 }

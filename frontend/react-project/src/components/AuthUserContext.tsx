@@ -4,7 +4,7 @@ import { AuthUser, OperationType } from "../types/types"
 const AuthUserContext = createContext<AuthUser | null>(null)
 const AuthOperationContext = createContext<OperationType>({
     login: (_) => console.error("Providerが設定されていません"),
-    logout: (_) => console.error("Providerが設定されていません")
+    logout: () => console.error("Providerが設定されていません")
 })
 type Props = {
     children?: React.ReactNode;
