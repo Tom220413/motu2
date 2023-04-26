@@ -12,7 +12,7 @@ import "./styles.css";
 import ReviewSlider from './ReviewSlider';
 import { Search } from "./Search";
 import { Tab, Review, AuthUser } from "../types/types";
-import AuthUserProvider, { useAuthUser } from './AuthUserContext';
+import { AuthUserProvider, useAuthUser } from './AuthUserContext';
 import LogoutPage from './LogoutPage';
 import LoginPage from './LoginPage';
 import HomePage from './HomePage';
@@ -149,24 +149,27 @@ function App() {
     const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
         const authUser = useAuthUser()
         const isAuthenticated = authUser != null
-        const { from } = useLocation<{ from: string | undefined }>().state
+        const { from = "/" } = useLocation<{ from: string }>().state ?? {}
+
         if (isAuthenticated) {
             console.log(`ログイン済みのユーザーは${props.path}へはアクセスできません`)
-            return <Redirect to={from ?? "/"} />
+            return <Redirect to={from} />
         } else {
             return <Route {...props} />
         }
     }
-    const PrivateRoute: React.FC<RouteProps> = ({ ...props }) => {
-        const authUser = useAuthUser()
-        const isAuthenticated = authUser != null
+
+    const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
+        const authUser = useAuthUser();
+        const isAuthenticated = authUser != null;
+
         if (isAuthenticated) {
-            return <Route {...props} />
+            return <Route {...rest}>{children}</Route>;
         } else {
-            console.log(`ログインしていないユーザーは${props.path}へはアクセスできません`)
-            return <Redirect to={{ pathname: "/login", state: { from: props.location?.pathname } }} />
+            console.log(`ログインしていないユーザーは${rest.path}へはアクセスできません`);
+            return <Redirect to="/login" />;
         }
-    }
+    };
 
     return (
         <>
