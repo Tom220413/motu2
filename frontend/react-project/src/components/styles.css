@@ -1,3 +1,77 @@
+.maincontainer {
+    max-width: 800px;
+    /* ページの最大幅 */
+    margin: 0 auto;
+    /* 水平方向に中央寄せ */
+    padding: 0 16px;
+    /* 左右に余白を設定 */
+    text-align: center;
+}
+
+/* homepage */
+.homepagetitle {
+    padding-left: 20px;
+}
+
+.titlebox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 20px;
+}
+
+.titletable {
+    width: 100%;
+    border-collapse: collapse;
+    height: 70%;
+}
+
+.titletable td {
+    width: 50%;
+}
+
+.motuimg {
+    max-height: 100%;
+    max-width: 50%;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.reviewbox,
+.rankingbox {
+    position: relative;
+    border: 1px solid #ccc;
+    padding: 30px;
+}
+
+.reviewbox:before {
+    content: "最新のレビュー";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #fff;
+}
+
+.rankingbox:before {
+    content: "ランキング";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #fff;
+}
+
+/* homepage */
+
+
 .tabs {
     display: flex;
     flex-wrap: wrap;
@@ -33,6 +107,8 @@
     border-radius: 0 0 5px 5px;
     padding: 10px;
     background-color: #fff;
+    margin-bottom: -10px;
+    padding-bottom: 20px;
 }
 
 .slide {
