@@ -18,7 +18,7 @@ export const SearchBox: React.FC<SearchBoxProps> = ({ onSearch }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input type="text" value={query} onChange={handleQueryChange} />
+            <input type="text" value={query} onChange={handleQueryChange} placeholder="例：店名、ジャンル" />
             <button type="submit">Search</button>
         </form>
     );

@@ -9,4 +9,4 @@ RUN apk add --no-cache apk-tools && \
 WORKDIR /src
 
 # publicフォルダーをコピー
-COPY ./public ./public
+# COPY ../frontend/react-project/public ./public

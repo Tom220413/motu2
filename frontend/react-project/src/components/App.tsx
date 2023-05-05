@@ -15,6 +15,11 @@ import ProfilePage from './ProfilePage';
 
 function App() {
     const [activeTab, setActiveTab] = useState(0);
+    const search = () => {
+        return (
+            < Search />
+        )
+    }
 
     const top = () => {
         return (
@@ -30,7 +35,7 @@ function App() {
         {
             id: 1,
             label: "検索",
-            content: top(),
+            content: search(),
         },
         {
             id: 2,

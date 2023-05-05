@@ -26,7 +26,7 @@ class DBClient:
     def get_db(self):
         env = os.environ.get("ENV_NAME")
         if env is None:
-            return self.conn.test1
+            return self.conn.motu2
         return self.conn[f"{env}"]
 
 
@@ -103,14 +103,27 @@ async def register(param: User):
     try:
         print("register user")
         db = await get_db()
-        if users.find_one({"username": param.username}):
+        if db.users.find_one({"username": param.username}):
             return False
-        if users.find_one({"email": param.email}):
+        if db.users.find_one({"email": param.email}):
             return False
         # パスワードのハッシュ化
         await hash.hash_password(param.password)
-        users.insert_one(param.dict())
+        db.users.insert_one(param.dict())
         return True
     except Exception as e:
         print(e)
         return False
+
+async def prefectures():
+    print("prefectures starting")
+    db = await get_db()
+    result = []
+    res = db.prefecture.find().sort([("id", 1)])
+    if res:
+        for i in res:
+            result.append({'id': i['id'], 'name': i['name']})
+        return result
+    else:
+        return {}
+    

@@ -38,3 +38,8 @@ export type OperationType = {
     login: (userId: string) => void
     logout: () => void
 }
+
+export type Prefecture = {
+    id: number;
+    name: string;
+}

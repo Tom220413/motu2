@@ -41,15 +41,22 @@ services:
 
   mongo:
     image: mongo:4.0
-    networks:
-      - mongo_network
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: 'root'
       MONGO_INITDB_ROOT_PASSWORD: 'dummy'
+    # volumes:
+    #   - mongodb_data1:/data/db
     volumes:
-      - mongodb_data1:/data/db
+      - ./mongodb_data1/db/db-data:/data/db
+      - ./mongodb_data1/db/configdb:/data/configdb
+      - ./mongodb_data1/prefecture.json:/docker-entrypoint-initdb.d/prefecture.json
+      - ./mongodb_data1/users.json:/docker-entrypoint-initdb.d/users.json
+      - ./mongodb_data1/init.sh:/docker-entrypoint-initdb.d/init.sh
+      - ./mongodb_data1/dump:/home/dump
     container_name: mongo_server
+    networks:
+      - mongo_network
 
   mongo-express:
     image: mongo-express

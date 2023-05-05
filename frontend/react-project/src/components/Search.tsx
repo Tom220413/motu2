@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { SearchBox } from './SearchBox';
 import { SearchResult } from './SearchResults';
 import { SearchHit } from '../types/types';
+import LocatioinSearch from './LocationSearch';
+
 
 export const Search: React.FC = () => {
     const [results, setResults] = useState<SearchHit[]>([]);
@@ -25,13 +27,20 @@ export const Search: React.FC = () => {
 
     return (
         <div>
-            <SearchBox onSearch={handleSearch} />
-            <SearchResult
+            <div>
+                <p>▼キーワードで検索</p>
+                <SearchBox onSearch={handleSearch} />
+            </div>
+            <div>
+                <p className='sercharea'>▼エリアから探す</p>
+                <LocatioinSearch />
+            </div>
+            {/* <SearchResult
                 results={displayedResults}
                 onPageChange={handlePageChange}
                 currentPage={currentPage}
                 totalPages={totalPages}
-            />
+            /> */}
         </div>
     );
 };
