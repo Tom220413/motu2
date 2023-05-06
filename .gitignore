@@ -6,6 +6,5 @@ backend/library/__pycache__/db_api.cpython-39.pyc
 backend/__pycache__/main.cpython-39.pyc
 backend/library/__pycache__/db.cpython-39.pyc
 
-.gitignore
 backend/__pycache__/main.cpython-39.pyc
 .gitignore

@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from fastapi import APIRouter, Path, Query, Body, HTTPException
 from starlette.responses import JSONResponse
-from library.db import get_todos_list, upsert_todos_list, delete_todos_list, register, prefectures
+from library.db import get_todos_list, upsert_todos_list, delete_todos_list, register, prefectures, get_search
 from library.models import TodosList, deleteTodosList, User
 
 # logger = tools.get_logger(__name__)
@@ -70,4 +70,12 @@ async def get_prefectures():
         return JSONResponse(status_code=400, content=traceback.format_exc())
     except Exception as e:
         return JSONResponse(status_code=500, content=traceback.format_exc())
-    return JSONResponse(status_code=200, content={"msg": "", "code": 0})
+
+@router.get("/search", name="dbから対象のキーワードを検索する")
+async def get_search_api(q: str = Query(None), location: str = Query(None)):
+    try:
+        return await get_search(q, location)
+    except HTTPException as httpe:
+        return JSONResponse(status_code=400, content=traceback.format_exc())
+    except Exception as e:
+        return JSONResponse(status_code=500, content=traceback.format_exc())

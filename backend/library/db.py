@@ -4,6 +4,7 @@ from typing import Optional
 from bson.objectid import ObjectId
 from library.models import User
 import library.hash
+import urllib.parse
 
 
 class DBClient:
@@ -117,13 +118,52 @@ async def register(param: User):
 
 async def prefectures():
     print("prefectures starting")
-    db = await get_db()
-    result = []
-    res = db.prefecture.find().sort([("id", 1)])
-    if res:
-        for i in res:
-            result.append({'id': i['id'], 'name': i['name']})
+    try:
+        db = await get_db()
+        result = []
+        res = db.prefecture.find().sort([("id", 1)])
+        if res:
+            for i in res:
+                result.append({'id': i['id'], 'name': i['name']})
+            return result
+        else:
+            return {}   
+    except Exception as e:
+        print(e)
+        return False
+
+async def get_search(q: str, location: str):
+    print("get_search starting")
+    try:
+        result = []
+        db = await get_db()
+        res_filter = {}
+        if q:
+            q = urllib.parse.unquote(q)
+            res_filter.update({
+                "$or": [
+                    {"name": {"$regex": f"{q}"}},
+                    {"namekana": {"$regex": f"{q}"}},
+                    {"description": {"$regex": f"{q}"}},
+                    {"address": {"$regex": f"{q}"}}
+                ]
+            })
+        if location:
+            location = urllib.parse.unquote(location)
+            res_filter.update({"address": {"$regex": f"{location}"}})
+        res = db.store.find(res_filter).sort([("id", 1)])
+        for r in res:
+            print(r)
+            result.append({
+                'id': r.get('id'),
+                'name': r.get('name'),
+                'namekana': r.get('namekana'),
+                'address': r.get('address'),
+                'photos': r.get('photos'),
+            })
         return result
-    else:
-        return {}
+    except Exception as e:
+        print(f'error {e}')
+        return None
     
+

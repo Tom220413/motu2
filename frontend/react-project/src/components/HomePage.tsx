@@ -83,14 +83,12 @@ const HomePage = () => {
                     <table className='titletable'>
                         <tr>
                             <td>
-                                <h2 className='homepagetitle'>もつ鍋探しは
-                                    <br></br>
-                                    こちらへ▷▶︎▷▷▶︎▷</h2 >
+                                <h3 className='homepagetitle'>もつ鍋検索サイト
+                                    <br />
+                                    あなたの好きなもつ鍋が<br />見つかるかも</h3 >
                             </td>
                             <td>
-                                <a href="https://example.com">
-                                    <img className="motuimg" src="img/food_motsunabe.png" /><br />
-                                </a>
+                                <img className="motuimg" src="img/food_motsunabe.png" /><br />
                             </td>
                         </tr>
                     </table>

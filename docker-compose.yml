@@ -52,6 +52,7 @@ services:
       - ./mongodb_data1/db/configdb:/data/configdb
       - ./mongodb_data1/prefecture.json:/docker-entrypoint-initdb.d/prefecture.json
       - ./mongodb_data1/users.json:/docker-entrypoint-initdb.d/users.json
+      - ./mongodb_data1/store.json:/docker-entrypoint-initdb.d/store.json
       - ./mongodb_data1/init.sh:/docker-entrypoint-initdb.d/init.sh
       - ./mongodb_data1/dump:/home/dump
     container_name: mongo_server

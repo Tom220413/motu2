@@ -1,0 +1,223 @@
+[
+    {
+        "id": 1,
+        "name": "サンプルストア",
+        "namekana": "かな読み",
+        "description": "サンプルストアは、...",
+        "address": "東京都渋谷区神南1-1-1",
+        "latitude": 35.658034,
+        "longitude": 139.701636,
+        "phone_number": "03-1234-5678",
+        "email": "sample@store.com",
+        "opening_hours": {
+            "mon": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "tue": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "wed": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "thu": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "fri": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "sat": {
+                "open": "10:00",
+                "close": "18:00"
+            },
+            "sun": {
+                "open": "11:00",
+                "close": "17:00"
+            }
+        },
+        "regular_holiday": "火曜日",
+        "photos": [
+            {
+                "id": 1,
+                "url": "https://example.com/image1.jpg",
+                "description": "店舗外観"
+            },
+            {
+                "id": 2,
+                "url": "https://example.com/image2.jpg",
+                "description": "店舗内部"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "サンプルストア2",
+        "namekana": "かな読み",
+        "description": "サンプルストアは、...",
+        "address": "東京都渋谷区神南1-1-1",
+        "latitude": 35.658034,
+        "longitude": 139.701636,
+        "phone_number": "03-1234-5678",
+        "email": "sample@store.com",
+        "opening_hours": {
+            "mon": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "tue": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "wed": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "thu": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "fri": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "sat": {
+                "open": "10:00",
+                "close": "18:00"
+            },
+            "sun": {
+                "open": "11:00",
+                "close": "17:00"
+            }
+        },
+        "regular_holiday": "火曜日",
+        "photos": [
+            {
+                "id": 1,
+                "url": "https://example.com/image1.jpg",
+                "description": "店舗外観"
+            },
+            {
+                "id": 2,
+                "url": "https://example.com/image2.jpg",
+                "description": "店舗内部"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "カフェアンジェリカ",
+        "namekana": "かふぇあんじぇりか",
+        "description": "自家焙煎のコーヒーと...",
+        "address": "大阪市中央区難波2-1-1",
+        "latitude": 34.6630457,
+        "longitude": 135.5003433,
+        "phone_number": "06-1234-5678",
+        "email": "cafe@angelica.jp",
+        "opening_hours": {
+            "mon": {
+                "open": "08:00",
+                "close": "18:00"
+            },
+            "tue": {
+                "open": "08:00",
+                "close": "18:00"
+            },
+            "wed": {
+                "open": "08:00",
+                "close": "18:00"
+            },
+            "thu": {
+                "open": "08:00",
+                "close": "18:00"
+            },
+            "fri": {
+                "open": "08:00",
+                "close": "18:00"
+            },
+            "sat": {
+                "open": "10:00",
+                "close": "17:00"
+            },
+            "sun": {
+                "open": "10:00",
+                "close": "17:00"
+            }
+        },
+        "regular_holiday": "水曜日",
+        "photos": [
+            {
+                "id": 1,
+                "url": "https://example.com/cafe_image1.jpg",
+                "description": "店舗外観"
+            },
+            {
+                "id": 2,
+                "url": "https://example.com/cafe_image2.jpg",
+                "description": "店内の様子"
+            },
+            {
+                "id": 3,
+                "url": "https://example.com/cafe_image3.jpg",
+                "description": "メニュー"
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Sample Store A",
+        "namekana": "さんぷるすとあーえー",
+        "description": "Sample Store A is a cozy coffee shop that serves delicious coffee and baked goods. The interior is decorated with a vintage style that creates a relaxing atmosphere.",
+        "address": "Tokyo, Shibuya-ku, Udagawa-cho 10-1",
+        "latitude": 35.660432,
+        "longitude": 139.701849,
+        "phone_number": "03-1234-5678",
+        "email": "samplea@store.com",
+        "opening_hours": {
+            "mon": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "tue": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "wed": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "thu": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "fri": {
+                "open": "10:00",
+                "close": "20:00"
+            },
+            "sat": {
+                "open": "11:00",
+                "close": "19:00"
+            },
+            "sun": {
+                "open": "11:00",
+                "close": "19:00"
+            }
+        },
+        "regular_holiday": "No regular holidays",
+        "photos": [
+            {
+                "id": 1,
+                "url": "https://example.com/image1.jpg",
+                "description": "Exterior of the store"
+            },
+            {
+                "id": 2,
+                "url": "https://example.com/image2.jpg",
+                "description": "Interior of the store"
+            }
+        ]
+    }
+]

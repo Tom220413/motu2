@@ -65,29 +65,25 @@ function LocationSearch() {
     if (selectedPrefectures.includes(value)) {
       setSelectedPrefectures(selectedPrefectures.filter(prefecture => prefecture !== value));
     } else {
-      setSelectedPrefectures(selectedPrefectures.filter(prefecture => prefecture !== value));
+      setSelectedPrefectures([...selectedPrefectures, value]);
     }
   };
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
-    setSelectedPrefectures([event.target.value]);
+    const selectedValue = event.target.value;
+    setSelectedPrefectures([selectedValue]);
+
+    // save selected area to local storage
+    localStorage.setItem('selectedPrefecture', selectedValue);
+
   }
-
-
   return (
     <div>
-      <label>都道府県:</label>
-      <select value={selectedPrefectures} onChange={handleSelectChange}>
+      <select value={selectedPrefectures[0] || ''} onChange={handleSelectChange}>
         <option value="">都道府県を選択してください</option>
         {prefectures.map(prefecture => (
-          <div key={prefecture.id}>
-            <label>
-              <input type="checkbox" value={prefecture.name} checked={selectedPrefectures.includes(prefecture.name)} onChange={handleCheckboxChange} />
-              {prefecture.name}
-            </label>
-          </div>
+          <option key={prefecture.id} value={prefecture.name}>{prefecture.name}</option>
         ))}
       </select>
-
     </div>
   );
 }

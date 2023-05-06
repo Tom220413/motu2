@@ -53,31 +53,6 @@ function App() {
             content: top(),
         },
     ];
-    // const UnAuthRoute: React.FC<RouteProps> = ({ ...props }) => {
-    //     const authUser = useAuthUser()
-    //     const isAuthenticated = authUser != null
-    //     const { from = "/" } = useLocation<{ from: string }>().state ?? {}
-
-    //     if (isAuthenticated) {
-    //         console.log(`ログイン済みのユーザーは${props.path}へはアクセスできません`)
-    //         return <Redirect to={from} />
-    //     } else {
-    //         return <Route {...props} />
-    //     }
-    // }
-
-    // const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
-    //     const authUser = useAuthUser();
-    //     const isAuthenticated = authUser != null;
-
-    //     if (isAuthenticated) {
-    //         return <Route {...rest}>{children}</Route>;
-    //     } else {
-    //         console.log(`ログインしていないユーザーは${rest.path}へはアクセスできません`);
-    //         return <Redirect to="/login" />;
-    //     }
-    // };
-
     return (
         <>
             <div className="maincontainer">
