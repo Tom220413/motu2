@@ -8,3 +8,5 @@ python-multipart == 0.0.5
 sqlalchemy
 pymysql
 redis 
+itsdangerous
+bcrypt

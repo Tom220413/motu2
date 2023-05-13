@@ -165,3 +165,48 @@
 .ranking-slider-item-index {
     font-size: 24px;
 }
+
+.searchresultul {
+    list-style-type: none;
+    padding: 5px;
+}
+
+.searchresultli {
+    height: 180px;
+    border: 1px solid #ccc;
+    padding: 30px;
+    position: relative;
+}
+
+.searchresultliimg img {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 50px;
+    left: 20px;
+
+}
+
+.searchresultcount {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.searchresultcount button {
+    border: none;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.searchresultcount button:hover {
+    background-color: #555;
+}
+
+.searchresultcount button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

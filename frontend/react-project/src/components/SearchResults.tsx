@@ -17,19 +17,45 @@ export const SearchResult: React.FC<SearchResultProps> = ({
     const handlePageChange = (page: number) => {
         onPageChange(page);
     };
+    const maxButtonsPerPage = 5; // 1ページに表示するボタンの最大数
+    const totalButtons = Math.ceil(totalPages / maxButtonsPerPage);
 
+    const buttonsToShow = [];
+    const delta = Math.floor(maxButtonsPerPage / 2);
+    let start = currentPage - delta;
+    let end = currentPage + delta;
+
+    if (start <= 0) {
+        start = 1;
+        end = Math.min(maxButtonsPerPage, totalButtons);
+    } else if (end > totalButtons) {
+        start = Math.max(totalButtons - maxButtonsPerPage + 1, 1);
+        end = totalButtons;
+    }
+
+    for (let i = start; i <= end; i++) {
+        buttonsToShow.push(i);
+    }
     return (
-        <div>
-            <ul>
-                {results.map((hit) => (
-                    <li key={hit.id}>
-                        <a href={hit.url}>{hit.title}</a>
-                        <p>{hit.description}</p>
-                    </li>
-                ))}
-            </ul>
-            <div>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+        <div className='searchresult'>
+            <div className='searchresultbox'>
+                <ul className='searchresultul'>
+                    {results.map((hit) => (
+                        <li className='searchresultli' key={hit.id}>
+                            <div className='searchresultliimg'>
+                                <img src={hit.image_url}></img>
+                            </div>
+                            <h3><a href={hit.image_url}>{hit.title}</a></h3>
+                            <h4>{hit.titlecana}</h4>
+                            <p>{hit.description}</p>
+                            <p>{hit.address}</p>
+                            <p>{hit.phone_number}</p>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <div className="searchresultcount">
+                {buttonsToShow.map((page) => (
                     <button
                         key={page}
                         onClick={() => handlePageChange(page)}

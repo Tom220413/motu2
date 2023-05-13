@@ -11,6 +11,7 @@ import LogoutPage from './LogoutPage';
 import LoginPage from './LoginPage';
 import HomePage from './HomePage';
 import ProfilePage from './ProfilePage';
+import Ranking from "./Ranking";
 
 
 function App() {
@@ -18,6 +19,11 @@ function App() {
     const search = () => {
         return (
             < Search />
+        )
+    }
+    const ranking = () => {
+        return (
+            < Ranking />
         )
     }
 
@@ -40,15 +46,10 @@ function App() {
         {
             id: 2,
             label: "ランキング",
-            content: top(),
+            content: ranking(),
         },
         {
             id: 3,
-            label: "レビュー",
-            content: top(),
-        },
-        {
-            id: 4,
             label: "マイページ",
             content: top(),
         },

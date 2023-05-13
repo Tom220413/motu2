@@ -31,7 +31,6 @@ export const updateTodoData = async (id: string, todo: Todo): Promise<void> => {
     await axios.put(API_BASE_URL + `update/${id}`, todo);
 };
 
-
 export const fetchUsers = () => {
     return apiClient.get('/users');
 }
@@ -46,4 +45,14 @@ export const updateUser = (id: number, data: User) => {
 
 export const deleteUser = (id: number) => {
     return apiClient.delete(`/users/${id}`);
+
+}
+
+export const search = async (q: string, location: string) => {
+    const response = await axios.get(API_BASE_URL + `search/?q=${q}&location=${location}`);
+    return response
+}
+
+export const ranking = async () => {
+    const response = await axios.get(API_BASE_URL + `ranking`);
 }

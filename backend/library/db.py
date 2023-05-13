@@ -138,6 +138,8 @@ async def get_search(q: str, location: str):
         result = []
         db = await get_db()
         res_filter = {}
+        print(q)
+        print(location)
         if q:
             q = urllib.parse.unquote(q)
             res_filter.update({
@@ -158,7 +160,10 @@ async def get_search(q: str, location: str):
                 'id': r.get('id'),
                 'name': r.get('name'),
                 'namekana': r.get('namekana'),
+                'description': r.get('description'),
                 'address': r.get('address'),
+                'phone_number': r.get('phone_number'),
+                'email': r.get('email'),
                 'photos': r.get('photos'),
             })
         return result

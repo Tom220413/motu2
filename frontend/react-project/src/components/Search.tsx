@@ -3,6 +3,7 @@ import { SearchBox } from './SearchBox';
 import { SearchResult } from './SearchResults';
 import { SearchHit } from '../types/types';
 import LocatioinSearch from './LocationSearch';
+import { search } from '../apis/todos';
 
 
 export const Search: React.FC = () => {
@@ -12,20 +13,35 @@ export const Search: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearch = async (searchQuery: string) => {
-        //ポート番号は直書きだから変更しなくては。。。
-        try {
-            let queryString = `http://localhost:8080/db/search?q=${encodeURIComponent(searchQuery)}`;
-            const locationQuery = localStorage.getItem('selectedPrefectures');
-            if (locationQuery !== null) {
-                queryString += `&location=${encodeURIComponent(JSON.stringify([locationQuery]))}`;
-            }
-            const response = await fetch(queryString);
-            const data = await response.json();
+        const locationQuery = localStorage.getItem('selectedPrefectures');
+        const response = await search(encodeURIComponent(searchQuery), encodeURIComponent(JSON.stringify([locationQuery])))
+            .catch((error) => {
+                console.error(error);
+            });
+        if (response) {
+            const data1 = response.data;
+            // 以降の処理...
+            // // const data = await response.json();
+            // setResults(data)
+            console.log(data1)
+            const data = JSON.stringify(data1);
             console.log(data);
-            setResults(data.hits);
-            setTotalPages(Math.ceil(data.total / 10));
-        } catch (error) {
-            console.error(error);
+            const parsedData = JSON.parse(data); // JavaScriptオブジェクトに変換
+            // データの整形とセット
+            const formattedData = parsedData.map((item: any) => {
+                return {
+                    id: item.id,
+                    title: item.name,
+                    titlecana: item.namekana,
+                    address: item.address,
+                    phone_number: item.phone_number,
+                    url: "",
+                    image_url: ""
+                };
+            });
+            setTotalPages(Math.ceil(data.length / 10));
+            setResults(formattedData);
+            console.log(formattedData);
         }
 
     };
@@ -52,6 +68,7 @@ export const Search: React.FC = () => {
                 <p className='sercharea'>▼エリアから探す</p>
                 <LocatioinSearch />
             </div>
+            <br />
             <button className="searchbutton" type="submit" onClick={() => handleSearch(searchQuery)}>
                 もつ鍋検索
             </button>

@@ -1,0 +1,77 @@
+[
+    {
+        "storeId": 1,
+        "menu": "テスト1",
+        "soup": "塩",
+        "shime": "うどん",
+        "score": 5,
+        "image": [
+            {
+                "id": 1,
+                "url": "hoge.jpg",
+                "description": "レビュー写真1"
+            },
+            {
+                "id": 2,
+                "url": "hage.jpg",
+                "description": "レビュー写真2"
+            }
+        ],
+        "comment": "めちゃクチャおいしいスープともつでした。最高なのでまた行きます。"
+    },
+    {
+        "storeId": 2,
+        "menu": "テスト1",
+        "soup": "塩",
+        "shime": "うどん",
+        "score": 5,
+        "image": [
+            {
+                "id": 1,
+                "url": "hoge.jpg",
+                "description": "レビュー写真1"
+            },
+            {
+                "id": 2,
+                "url": "hage.jpg",
+                "description": "レビュー写真2"
+            }
+        ],
+        "comment": "めちゃクチャおいしいスープともつでした。最高なのでまた行きます。"
+    },
+    {
+        "storeId": 1,
+        "menu": "テスト2",
+        "soup": "醤油",
+        "shime": "ごはん",
+        "score": 4,
+        "image": [
+            {
+                "id": 3,
+                "url": "foo.jpg",
+                "description": "レビュー写真3"
+            },
+            {
+                "id": 4,
+                "url": "bar.jpg",
+                "description": "レビュー写真4"
+            }
+        ],
+        "comment": "美味しい醤油ラーメンでした。ごはんがおかわりできるのがうれしいです。"
+    },
+    {
+        "storeId": 1,
+        "menu": "テスト3",
+        "soup": "味噌",
+        "shime": "ごま",
+        "score": 3,
+        "image": [
+            {
+                "id": 5,
+                "url": "baz.jpg",
+                "description": "レビュー写真5"
+            }
+        ],
+        "comment": "濃厚な味噌ラーメンでした。ごまがアクセントになっています。"
+    }
+]

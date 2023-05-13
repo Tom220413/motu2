@@ -6,7 +6,10 @@ export type SearchResult = {
 export type SearchHit = {
     id: number;
     title: string;
+    titlecana: string
     description: string;
+    address: string;
+    phone_number: string;
     url: string;
     image_url: string;
 };

@@ -70,11 +70,10 @@ function LocationSearch() {
   };
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
     const selectedValue = event.target.value;
-    setSelectedPrefectures([selectedValue]);
+    setSelectedPrefectures(selectedValue ? [selectedValue] : []);
 
     // save selected area to local storage
-    localStorage.setItem('selectedPrefecture', selectedValue);
-
+    localStorage.setItem('selectedPrefectures', selectedValue);
   }
   return (
     <div>
