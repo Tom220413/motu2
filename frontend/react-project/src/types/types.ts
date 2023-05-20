@@ -46,3 +46,17 @@ export type Prefecture = {
     id: number;
     name: string;
 }
+export type StoreDetail = {
+    id: string
+    name: string,
+    namekana: string,
+    description: string,
+    address: string,
+    latitude: string,
+    longitude: string,
+    phone_number: string,
+    email: string,
+    opening_hours: string,
+    regular_holiday: string,
+    photos: string,
+}

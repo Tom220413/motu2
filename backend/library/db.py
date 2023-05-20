@@ -116,6 +116,7 @@ async def register(param: User):
         print(e)
         return False
 
+
 async def prefectures():
     print("prefectures starting")
     try:
@@ -124,13 +125,14 @@ async def prefectures():
         res = db.prefecture.find().sort([("id", 1)])
         if res:
             for i in res:
-                result.append({'id': i['id'], 'name': i['name']})
+                result.append({"id": i["id"], "name": i["name"]})
             return result
         else:
-            return {}   
+            return {}
     except Exception as e:
         print(e)
         return False
+
 
 async def get_search(q: str, location: str):
     print("get_search starting")
@@ -140,35 +142,68 @@ async def get_search(q: str, location: str):
         res_filter = {}
         print(q)
         print(location)
+        if location == "[null]":
+            location = None
         if q:
             q = urllib.parse.unquote(q)
-            res_filter.update({
-                "$or": [
-                    {"name": {"$regex": f"{q}"}},
-                    {"namekana": {"$regex": f"{q}"}},
-                    {"description": {"$regex": f"{q}"}},
-                    {"address": {"$regex": f"{q}"}}
-                ]
-            })
+            res_filter.update(
+                {
+                    "$or": [
+                        {"name": {"$regex": f"{q}"}},
+                        {"namekana": {"$regex": f"{q}"}},
+                        {"description": {"$regex": f"{q}"}},
+                        {"address": {"$regex": f"{q}"}},
+                    ]
+                }
+            )
         if location:
             location = urllib.parse.unquote(location)
             res_filter.update({"address": {"$regex": f"{location}"}})
         res = db.store.find(res_filter).sort([("id", 1)])
         for r in res:
             print(r)
-            result.append({
-                'id': r.get('id'),
-                'name': r.get('name'),
-                'namekana': r.get('namekana'),
-                'description': r.get('description'),
-                'address': r.get('address'),
-                'phone_number': r.get('phone_number'),
-                'email': r.get('email'),
-                'photos': r.get('photos'),
-            })
+            result.append(
+                {
+                    "id": r.get("id"),
+                    "name": r.get("name"),
+                    "namekana": r.get("namekana"),
+                    "description": r.get("description"),
+                    "address": r.get("address"),
+                    "phone_number": r.get("phone_number"),
+                    "email": r.get("email"),
+                    "photos": r.get("photos"),
+                }
+            )
         return result
     except Exception as e:
-        print(f'error {e}')
+        print(f"error {e}")
         return None
-    
 
+
+async def get_store(id: str):
+    print("get_store starting")
+    try:
+        result = []
+        db = await get_db()
+        res = db.store.find_one({"id": int(id)})
+        result.append(
+            {
+                "id": res.get("id"),
+                "name": res.get("name"),
+                "namekana": res.get("namekana"),
+                "description": res.get("description"),
+                "address": res.get("address"),
+                "latitude": res.get("latitude"),
+                "longitude": res.get("longitude"),
+                "phone_number": res.get("phone_number"),
+                "email": res.get("email"),
+                "photos": res.get("photos"),
+                "opening_hours": res.get("opening_hours"),
+                "regular_holiday": res.get("regular_holiday"),
+                "photos": res.get("photos"),
+            }
+        )
+        return result
+    except Exception as e:
+        print(f"error {e}")
+        return None

@@ -15,6 +15,7 @@ app.include_router(db_api.router)
 
 origins = [
     "http://localhost:3000",
+    "http://localhost"
 ]
 
 app.add_middleware(

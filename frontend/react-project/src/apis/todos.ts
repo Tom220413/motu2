@@ -45,9 +45,7 @@ export const updateUser = (id: number, data: User) => {
 
 export const deleteUser = (id: number) => {
     return apiClient.delete(`/users/${id}`);
-
 }
-
 export const search = async (q: string, location: string) => {
     const response = await axios.get(API_BASE_URL + `search/?q=${q}&location=${location}`);
     return response
@@ -55,4 +53,8 @@ export const search = async (q: string, location: string) => {
 
 export const ranking = async () => {
     const response = await axios.get(API_BASE_URL + `ranking`);
+}
+export const store = async (id: string) => {
+    const response = await axios.get(API_BASE_URL + `store/?id=${id}`)
+    return response
 }

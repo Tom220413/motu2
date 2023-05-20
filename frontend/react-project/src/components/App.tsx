@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch, BrowserRouter } from 'react-router-dom';
 
 import { Map } from "./Map";
 import SearchHeader from './SearchHeader';
@@ -10,7 +10,7 @@ import { AuthUserProvider, useAuthUser } from './AuthUserContext';
 import LogoutPage from './LogoutPage';
 import LoginPage from './LoginPage';
 import HomePage from './HomePage';
-import ProfilePage from './ProfilePage';
+import { Store } from './Store';
 import Ranking from "./Ranking";
 
 
@@ -56,35 +56,28 @@ function App() {
     ];
     return (
         <>
-            <div className="maincontainer">
-                <SearchHeader />
-                <nav className="tabs">
-                    {tabs.map((tab) => (
-                        <a
-                            key={tab.id}
-                            className={activeTab === tab.id ? "active" : ""}
-                            onClick={() => setActiveTab(tab.id)}
-                        >
-                            {tab.label}
-                        </a>
-                    ))}
-                </nav>
-                <div className="tab-content">{tabs[activeTab].content}</div>
-                {/* <TodoTitle title="レビューを追加" as="h1" /> */}
-                {/* <TodoAdd buttonText="+ 投稿" inputEl={inputEl} handleAddTodoListItem={handleAddTodoListItem} /> */}
-                {/* <Map /> */}
-                {/* <AuthUserProvider>
-                <Router>
+            <Router>
+                <div className="maincontainer">
+                    <SearchHeader />
                     <Switch>
-                        <UnAuthRoute exact path="/login" component={LoginPage} />
-                        <UnAuthRoute exact path="/logout" component={LogoutPage} />
-                        <PrivateRoute exact path="/" component={HomePage} />
-                        <PrivateRoute exact path="/profile/:userId" component={ProfilePage} />
-                        <Redirect to="/" />
+                        <Route exact path="/">
+                            <nav className="tabs">
+                                {tabs.map((tab) => (
+                                    <a
+                                        key={tab.id}
+                                        className={activeTab === tab.id ? "active" : ""}
+                                        onClick={() => setActiveTab(tab.id)}
+                                    >
+                                        {tab.label}
+                                    </a>
+                                ))}
+                            </nav>
+                            <div className="tab-content">{tabs[activeTab].content}</div>
+                        </Route>
+                        <Route path="/store/:id" component={Store} />
                     </Switch>
-                </Router>
-            </AuthUserProvider> */}
-            </div>
+                </div>
+            </Router>
         </>
     );
 }

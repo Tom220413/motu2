@@ -1,5 +1,8 @@
 import React from 'react';
 import { SearchHit } from '../types/types';
+// import { Router } from 'express';
+import { Store } from './Store';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 type SearchResultProps = {
     results: SearchHit[];
@@ -45,7 +48,9 @@ export const SearchResult: React.FC<SearchResultProps> = ({
                             <div className='searchresultliimg'>
                                 <img src={hit.image_url}></img>
                             </div>
-                            <h3><a href={hit.image_url}>{hit.title}</a></h3>
+                            <h3>
+                                <a href={`/store/${hit.id}`} target="_blank">{hit.title}</a>
+                            </h3>
                             <h4>{hit.titlecana}</h4>
                             <p>{hit.description}</p>
                             <p>{hit.address}</p>

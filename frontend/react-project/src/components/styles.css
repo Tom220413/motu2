@@ -39,10 +39,23 @@
 }
 
 .reviewbox,
-.rankingbox {
+.rankingbox,
+.postedphoto,
+.storedetail {
     position: relative;
     border: 1px solid #ccc;
     padding: 30px;
+}
+
+.storereview {
+    position: relative;
+    width: 200px;
+    height: 100px;
+    border-width: 1px 1px 1px 20px;
+    border-color: #ccc;
+    border-style: solid;
+    border-radius: 10px 0 0 10px;
+    transform: rotate(-10deg);
 }
 
 .reviewbox:before {
@@ -59,6 +72,18 @@
 
 .rankingbox:before {
     content: "ランキング";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #fff;
+}
+
+.postedphoto::before {
+    content: "投稿写真";
     position: absolute;
     top: -10px;
     left: 20px;
@@ -209,4 +234,9 @@
 .searchresultcount button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.storedetailh4,
+.storereviewh4 {
+    text-align: left;
 }
