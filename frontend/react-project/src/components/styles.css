@@ -49,13 +49,23 @@
 
 .storereview {
     position: relative;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
     width: 200px;
-    height: 100px;
-    border-width: 1px 1px 1px 20px;
-    border-color: #ccc;
+}
+
+
+.storereview::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 15%;
+    transform: translateX(-50%);
+    border-width: 10px;
     border-style: solid;
-    border-radius: 10px 0 0 10px;
-    transform: rotate(-10deg);
+    border-color: transparent transparent #ccc transparent;
 }
 
 .reviewbox:before {
@@ -239,4 +249,5 @@
 .storedetailh4,
 .storereviewh4 {
     text-align: left;
+    margin-bottom: 5px;
 }
