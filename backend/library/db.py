@@ -207,3 +207,13 @@ async def get_store(id: str):
     except Exception as e:
         print(f"error {e}")
         return None
+
+async def get_ranking():
+    print("get_rankign start")
+    try:
+        db = await get_db()
+        res = db.review.find().sort([("createtime", 1)])
+        return res
+    except Exception as e:
+        print(f"error {e}")
+        return None

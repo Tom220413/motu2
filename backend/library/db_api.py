@@ -11,6 +11,7 @@ from library.db import (
     prefectures,
     get_search,
     get_store,
+    get_ranking,
 )
 from library.models import TodosList, deleteTodosList, User
 
@@ -94,7 +95,7 @@ async def get_search_api(q: str = Query(None), location: str = Query(None)):
 @router.get("/ranking", name="dbから対象のランキングを取得する")
 async def get_ranking_api():
     try:
-        return JSONResponse(status_code=200, content="ランキング")
+        return await get_ranking()
     except HTTPException as httpe:
         return JSONResponse(status_code=400, content=traceback.format_exc())
     except Exception as e:
