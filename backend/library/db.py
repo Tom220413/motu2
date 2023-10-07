@@ -211,9 +211,21 @@ async def get_store(id: str):
 async def get_ranking():
     print("get_rankign start")
     try:
+        result = []
         db = await get_db()
-        res = db.review.find().sort([("createtime", 1)])
-        return res
+        res = db.review.find()
+        for i in res:
+            result.append(
+                {
+                    "storeId": i.get("storeId"),
+                    "menu": i.get("menu"),
+                    "soup": i.get("soup"),
+                    "shime": i.get("shime"),
+                    "image": i.get("image"),
+                    "comment": i.get("comment"),
+                }
+            )
+        return result
     except Exception as e:
         print(f"error {e}")
         return None
