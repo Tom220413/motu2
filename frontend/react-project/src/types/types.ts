@@ -60,3 +60,16 @@ export type StoreDetail = {
     regular_holiday: string,
     photos: string,
 }
+
+export type RankingType = {
+    storeid: string,
+    menu: string,
+    soup: string,
+    shime: string,
+    image: {
+        id: number,
+        url: string,
+        description: string
+    }[],
+    comment: string
+}

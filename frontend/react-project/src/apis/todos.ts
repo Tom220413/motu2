@@ -53,6 +53,7 @@ export const search = async (q: string, location: string) => {
 
 export const ranking = async () => {
     const response = await axios.get(API_BASE_URL + `ranking`);
+    return response
 }
 export const store = async (id: string) => {
     const response = await axios.get(API_BASE_URL + `store/?id=${id}`)
