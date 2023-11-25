@@ -59,3 +59,8 @@ export const store = async (id: string) => {
     const response = await axios.get(API_BASE_URL + `store/?id=${id}`)
     return response
 }
+
+export const mypage = async (id: string) => {
+    const response = await axios.get(API_BASE_URL + `mypage/?id=${id}`);
+    return response
+}

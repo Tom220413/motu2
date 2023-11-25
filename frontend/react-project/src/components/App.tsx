@@ -12,6 +12,7 @@ import LoginPage from './LoginPage';
 import HomePage from './HomePage';
 import { Store } from './Store';
 import Ranking from "./Ranking";
+import Mypage from "./Mypage";
 
 
 function App() {
@@ -30,6 +31,11 @@ function App() {
     const top = () => {
         return (
             < HomePage />
+        )
+    }
+    const mypage = () => {
+        return (
+            < Mypage />
         )
     }
     const tabs: Tab[] = [
@@ -51,7 +57,7 @@ function App() {
         {
             id: 3,
             label: "マイページ",
-            content: top(),
+            content: mypage(),
         },
     ];
     return (
