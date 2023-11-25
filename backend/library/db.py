@@ -5,6 +5,10 @@ from bson.objectid import ObjectId
 from library.models import User
 import library.hash
 import urllib.parse
+import logging
+
+# このモジュール用のロガーを取得
+logger = logging.getLogger(__name__)
 
 
 class DBClient:
@@ -47,7 +51,7 @@ async def get_db():
 
 async def get_todos_list():
     try:
-        print("get_todos_list")
+        logger.info("get_todos_list")
         db = await get_db()
         result = []
         rows = db.todos.find()
@@ -61,14 +65,13 @@ async def get_todos_list():
             )
         return result
     except Exception as e:
-        print("error get_todos_list")
-        print(e)
+        logger.error(f"error get_todos_list {e}")
         return e
 
 
 async def upsert_todos_list(param: dict):
     try:
-        print("upsert_todos_list")
+        logger.info("upsert_todos_list")
         db = await get_db()
         result = db.todos.find_one({"id": param["id"]})
         if result is None:
@@ -80,14 +83,13 @@ async def upsert_todos_list(param: dict):
                 upsert=True,
             )
     except Exception as e:
-        print("error post_todos_list")
-        print(e)
+        logger.error(f"error post_todos_list {e}")
         return e
 
 
 async def delete_todos_list(param: str):
     try:
-        print("delete_todos_list")
+        logger.info("delete_todos_list")
         db = await get_db()
         result = db.todos.find_one({"id": param})
         if result.count() == 0:
@@ -96,13 +98,13 @@ async def delete_todos_list(param: str):
             db.todos.deleteOne({"id": param})
             return True
     except Exception as e:
-        print(e)
+        logger.error(f"delete_todos_list: {e}")
         return False
 
 
 async def register(param: User):
     try:
-        print("register user")
+        logger.info("register user")
         db = await get_db()
         if db.users.find_one({"username": param.username}):
             return False
@@ -113,12 +115,12 @@ async def register(param: User):
         db.users.insert_one(param.dict())
         return True
     except Exception as e:
-        print(e)
+        (e)
         return False
 
 
 async def prefectures():
-    print("prefectures starting")
+    logger.info("prefectures starting")
     try:
         db = await get_db()
         result = []
@@ -130,18 +132,18 @@ async def prefectures():
         else:
             return {}
     except Exception as e:
-        print(e)
+        logger.error(f"prefectures error { e}")
         return False
 
 
 async def get_search(q: str, location: str):
-    print("get_search starting")
+    logger.info("get_search starting")
     try:
         result = []
         db = await get_db()
         res_filter = {}
-        print(q)
-        print(location)
+        logger.info(f"get_search query: {q}")
+        logger.info(f"get_search location: {location}")
         if location == "[null]":
             location = None
         if q:
@@ -161,7 +163,7 @@ async def get_search(q: str, location: str):
             res_filter.update({"address": {"$regex": f"{location}"}})
         res = db.store.find(res_filter).sort([("id", 1)])
         for r in res:
-            print(r)
+            logger.info(r)
             result.append(
                 {
                     "id": r.get("id"),
@@ -176,12 +178,12 @@ async def get_search(q: str, location: str):
             )
         return result
     except Exception as e:
-        print(f"error {e}")
+        logger.error(f"get_search error {e}")
         return None
 
 
 async def get_store(id: str):
-    print("get_store starting")
+    logger.info("get_store starting")
     try:
         result = []
         db = await get_db()
@@ -205,11 +207,12 @@ async def get_store(id: str):
         )
         return result
     except Exception as e:
-        print(f"error {e}")
+        logger.error(f"get_store error {e}")
         return None
 
+
 async def get_ranking():
-    print("get_rankign start")
+    logger.info("get_rankign start")
     try:
         result = []
         db = await get_db()
@@ -227,5 +230,5 @@ async def get_ranking():
             )
         return result
     except Exception as e:
-        print(f"error {e}")
+        logger.error(f"get_rankign error {e}")
         return None

@@ -14,8 +14,9 @@ from library.db import (
     get_ranking,
 )
 from library.models import TodosList, deleteTodosList, User
+import logging
 
-# logger = tools.get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix=f"/db", tags=["db"])
 

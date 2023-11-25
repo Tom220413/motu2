@@ -8,15 +8,16 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from library import db_api
 
+from library.logging_config import setup_logger
+
+# アプリケーションの初期化時にロギングを設定
+setup_logger()
 
 app = FastAPI()
 
 app.include_router(db_api.router)
 
-origins = [
-    "http://localhost:3000",
-    "http://localhost"
-]
+origins = ["http://localhost:3000", "http://localhost"]
 
 app.add_middleware(
     CORSMiddleware,
