@@ -1,0 +1,7 @@
+
+useridを軸に、rviewの件数とか取得する
+useridを軸に、rviewの最新日時の情報を取得する
+storeコレクションのiine項目にあるuseridがある件数を取得する
+storeコレクションのfavorite項目にあるuseridがある件数を取得する
+
+あとはuserコレクションにある情報を返す
