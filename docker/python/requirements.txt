@@ -10,3 +10,4 @@ pymysql
 redis 
 itsdangerous
 bcrypt
+websockets

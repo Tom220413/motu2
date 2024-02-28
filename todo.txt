@@ -6,3 +6,6 @@ storeコレクションのiine項目にあるuseridがある件数を取得す�
 storeコレクションのfavorite項目にあるuseridがある件数を取得する
 
 あとはuserコレクションにある情報を返す
+
+webscketを導入するにあたって
+indexのページのランキングとかレビューをリアルタイム更新するためにdbに定期的に取得しに行くためにwebscketを使用する
