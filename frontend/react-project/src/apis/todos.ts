@@ -60,7 +60,12 @@ export const store = async (id: string) => {
     return response
 }
 
-export const mypage = async (id: string) => {
-    const response = await axios.get(API_BASE_URL + `mypage/?id=${id}`);
+export const mypage = async (id: number) => {
+    const response = await axios.get(API_BASE_URL + `mypage/${id}`);
+    return response
+}
+
+export const profile = async (id: number) => {
+    const response = await axios.get(API_BASE_URL + `mypage/profile/${id}`);
     return response
 }

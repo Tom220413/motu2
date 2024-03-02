@@ -354,3 +354,34 @@ rankingページのcss
     color: #666;
     margin-left: 10px;
 }
+
+#mypage-list {
+    list-style-type: none;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    /* Adjusts the spacing between the boxes */
+    padding: 20px;
+    /* Adds some space around the container */
+}
+
+.mypage-item {
+    flex: 1;
+    /* Makes each item take equal space */
+    margin: 10px;
+    /* Adds some space around each box */
+    padding: 20px;
+    /* Adds some space inside each box */
+    background-color: #f4f4f4;
+    /* Change as needed */
+    border-radius: 10px;
+    /* Adds rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* Adds a subtle shadow */
+    text-align: center;
+    /* Centers the text */
+}

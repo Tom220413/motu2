@@ -73,3 +73,10 @@ export type RankingType = {
     }[],
     comment: string
 }
+
+
+export type MypageCountType = {
+    review_count: number,
+    iine_count: number,
+    favorite_count: number,
+}

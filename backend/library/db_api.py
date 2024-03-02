@@ -12,6 +12,8 @@ from library.db import (
     get_search,
     get_store,
     get_ranking,
+    get_mypage,
+    get_user_info,
 )
 from library.models import TodosList, deleteTodosList, User
 import logging
@@ -109,6 +111,32 @@ async def get_store_api(
 ):
     try:
         result = await get_store(id)
+        return result
+    except HTTPException as httpe:
+        return JSONResponse(status_code=400, content=traceback.format_exc())
+    except Exception as e:
+        return JSONResponse(status_code=500, content=traceback.format_exc())
+
+
+@router.get("/mypage/{user_id}", name="mypageのreview、iine、favorite件数を取得する")
+async def get_mypage_api(
+    user_id: int = Path(..., title="userid", example=1),
+):
+    try:
+        result = await get_mypage(user_id)
+        return result
+    except HTTPException as httpe:
+        return JSONResponse(status_code=400, content=traceback.format_exc())
+    except Exception as e:
+        return JSONResponse(status_code=500, content=traceback.format_exc())
+
+
+@router.get("/mypage/profile/{user_id}", name="user情報を取得する")
+async def get_user_info_api(
+    user_id: int = Path(..., title="userid", example=1),
+):
+    try:
+        result = await get_user_info(user_id)
         return result
     except HTTPException as httpe:
         return JSONResponse(status_code=400, content=traceback.format_exc())

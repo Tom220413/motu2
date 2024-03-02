@@ -1,11 +1,30 @@
 mypageの話
 useridを軸に、reviewの件数とか取得する
-
-useridを軸に、reviewの最新日時の情報を取得する
+→done
 storeコレクションのiine項目にあるuseridがある件数を取得する
+→done
 storeコレクションのfavorite項目にあるuseridがある件数を取得する
+→done
 
 あとはuserコレクションにある情報を返す
 
 webscketを導入するにあたって
 indexのページのランキングとかレビューをリアルタイム更新するためにdbに定期的に取得しに行くためにwebscketを使用する
+
+あとミックデザインはおすすめしない
+conponetsの配下でフォルダ切り分けした方がいい（ファイルはイメージ）
+
+ - context.tsx(ディレクトリにするかファイルにするかは要相談)
+    - component
+        - page(そのページでしか使わないもの)
+            - mypage
+                - MypageForm.tsx
+            - ranking
+                - RankngList.tsx
+        - parts(複数の箇所で使う共通パーツ)
+            - Form
+            - map
+        - layout(レイアウト)
+            - header
+            - Sidebar
+            - Footer

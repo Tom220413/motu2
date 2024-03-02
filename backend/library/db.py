@@ -232,3 +232,31 @@ async def get_ranking():
     except Exception as e:
         logger.error(f"get_rankign error {e}")
         return None
+
+
+async def get_mypage(userid) -> dict:
+    logger.info("get_mypage start")
+    try:
+        db = await get_db()
+        review_count = db.review.count({"userId": userid})
+        iine_count = db.store.count({"iine": {"$elemMatch": {"$eq": f"{userid}"}}})
+        favorite_count = db.store.count(
+            {"favorite": {"$elemMatch": {"$eq": f"{userid}"}}}
+        )
+        return {
+            "review_count": review_count,
+            "iine_count": iine_count,
+            "favorite_count": favorite_count,
+        }
+    except Exception as e:
+        logger.error(f"get_rankign error {e}")
+        return {}
+
+
+async def get_user_info(userid) -> dict:
+    logger.info("get_user_info start")
+    try:
+        db = await get_db()
+        return db.users.find({"id": userid})
+    except Exception as e:
+        logger.error(f"get_rankign error {e}")

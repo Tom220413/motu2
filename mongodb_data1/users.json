@@ -3,6 +3,10 @@
         "id": 0,
         "name": "test1",
         "email": "test1@example.com",
-        "password": "password1"
+        "password": "password1",
+        "user_image": "s3.xxx",
+        "user_comment": "よくもつ鍋食べます",
+        "gender": 0,
+        "location": "東京都渋谷区渋谷区1-1-1"
     }
 ]
