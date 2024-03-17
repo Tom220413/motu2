@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { profile } from '../apis/todos'
+import axios from 'axios';
 
+interface ProfileEditProps {
+    userId: number ;  
+}
 
-const ProfileEdit = ({ userId }) => {
+const ProfileEdit: React.FC<ProfileEditProps> = ({ userId }) => {
     const [profileModel, setProfile] = useState({ name: '', email: '', bio: '' });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -23,13 +27,14 @@ const ProfileEdit = ({ userId }) => {
     }, [userId]);
 
     // フォームの値が変更されたときのハンドラー
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = event.target as HTMLInputElement | HTMLTextAreaElement;
         setProfile({ ...profileModel, [name]: value });
     };
 
+
     // 更新処理
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
             await axios.put(`/api/users/${userId}`, profile);
