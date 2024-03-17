@@ -14,8 +14,9 @@ from library.db import (
     get_ranking,
     get_mypage,
     get_user_info,
+    put_profile,
 )
-from library.models import TodosList, deleteTodosList, User
+from library.models import TodosList, deleteTodosList, User, PutProfile
 import logging
 
 logger = logging.getLogger(__name__)
@@ -137,6 +138,22 @@ async def get_user_info_api(
 ):
     try:
         result = await get_user_info(user_id)
+        return result
+    except HTTPException as httpe:
+        return JSONResponse(status_code=400, content=traceback.format_exc())
+    except Exception as e:
+        return JSONResponse(status_code=500, content=traceback.format_exc())
+
+
+@router.put("/mypage/{user_id}", name="mypageのreview、iine、favorite件数を取得する")
+async def put_profile_api(
+    user_id: int = Path(..., title="userid", example=1), 
+    profile: PutProfile = Body(...),
+):
+    try:
+        # 入力チェックは？
+        result = await put_profile(user_id, profile)
+        
         return result
     except HTTPException as httpe:
         return JSONResponse(status_code=400, content=traceback.format_exc())

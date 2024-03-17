@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { mypage } from '../../../apis/apis'
 import { MypageCountType } from '../../../types/types';
+import ProfileEdit from '../profile/ProfileEdit'; 
 
 const Mypage = () => {
     // useStateの変数名をrankingsからmypageCountsに変更
@@ -47,8 +48,16 @@ const Mypage = () => {
                     </div>
                     <div id='mypage-list'>
                         <p>あなたへのおすすめ</p>
+                        <p>こんな店舗がおすすめです！</p>
                     </div>
-                    
+                    <div id="dotted-line"></div>
+                    <div id='mypage-edit'><p>プロフィールを編集する</p></div>
+                    <div>
+                        {/* 他のMypageコンテンツ... */}
+                        <ProfileEdit userId={1} />
+                        {/* もっとMypageコンテンツ... */}
+                    </div>
+
                 </>
             )}
         </div>

@@ -260,3 +260,14 @@ async def get_user_info(userid) -> dict:
         return db.users.find({"id": userid})
     except Exception as e:
         logger.error(f"get_rankign error {e}")
+
+
+async def put_profile(userid, profile):
+    logger.info("put_profile start")
+    try:
+        db = await get_db()
+        user_info = db.users.find({"id": userid})
+        user_info
+        return
+    except Exception as e:
+        logger.error(f"put_profile error {e}")

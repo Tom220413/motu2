@@ -45,3 +45,8 @@ export const profile = async (id: number) => {
     const response = await axios.get(API_BASE_URL + `mypage/profile/${id}`);
     return response
 }
+
+export const put_profile = async (id: number, profile: any) => {
+    const response = await axios.put(API_BASE_URL + `mypage/profile/${id}`, profile);
+    return response
+}
