@@ -1,18 +1,18 @@
 import React, { useRef, useState } from "react";
 import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch, BrowserRouter } from 'react-router-dom';
 
-import { Map } from "./Map";
-import SearchHeader from './SearchHeader';
+import { Map } from "./parts/map/Map";
+import SearchHeader from './parts/search/SearchHeader';
 import "./styles.css";
-import { Search } from "./Search";
+import { Search } from "./parts/search/Search";
 import { Tab, Review, AuthUser } from "../types/types";
 import { AuthUserProvider, useAuthUser } from './AuthUserContext';
 import LogoutPage from './LogoutPage';
 import LoginPage from './LoginPage';
 import HomePage from './HomePage';
-import { Store } from './Store';
-import Ranking from "./Ranking";
-import Mypage from "./Mypage";
+import { Store } from './page/store/Store';
+import Ranking from "./page/ranking/Ranking";
+import Mypage from "./page/mypage/Mypage";
 
 
 function App() {

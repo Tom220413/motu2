@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { profile } from '../apis/todos'
+import { profile } from '../../../apis/apis'
 import axios from 'axios';
 
 interface ProfileEditProps {

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { SearchBox } from './SearchBox';
 import { SearchResult } from './SearchResults';
-import { SearchHit } from '../types/types';
+import { SearchHit } from '../../../types/types';
 import LocatioinSearch from './LocationSearch';
-import { search } from '../apis/todos';
+import { search } from '../../../apis/apis';
 
 
 export const Search: React.FC = () => {

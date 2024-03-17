@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { mypage } from '../apis/todos'
-import { MypageCountType } from '../types/types';
+import { mypage } from '../../../apis/apis'
+import { MypageCountType } from '../../../types/types';
 
 const Mypage = () => {
     // useStateの変数名をrankingsからmypageCountsに変更

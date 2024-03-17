@@ -1,5 +1,5 @@
 import React from 'react'
-import ReviewSlider from './ReviewSlider';
+import ReviewSlider from './layout/slider/ReviewSlider';
 import { Review } from "../types/types";
 
 const HomePage = () => {

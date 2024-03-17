@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Prefecture } from '../types/types';
+import { Prefecture } from '../../../types/types';
 
 const instance = axios.create({
   baseURL: 'http://localhost:8080',

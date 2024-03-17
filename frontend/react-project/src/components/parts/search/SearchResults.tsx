@@ -1,7 +1,7 @@
 import React from 'react';
-import { SearchHit } from '../types/types';
+import { SearchHit } from '../../../types/types';
 // import { Router } from 'express';
-import { Store } from './Store';
+import { Store } from '../../page/store/Store';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 type SearchResultProps = {

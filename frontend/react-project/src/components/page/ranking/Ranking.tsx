@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ranking } from '../apis/todos'
-import { RankingType } from '../types/types';
+import { ranking } from '../../../apis/apis'
+import { RankingType } from '../../../types/types';
 
 const Ranking = () => {
     const [rankings, setRankings] = useState<Array<RankingType>>([]);

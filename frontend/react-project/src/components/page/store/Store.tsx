@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { store } from '../apis/todos';
-import { StoreDetail } from '../types/types';
+import { store } from '../../../apis/apis';
+import { StoreDetail } from '../../../types/types';
 
 
 export const Store: React.FC = () => {
