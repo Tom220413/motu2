@@ -3,16 +3,25 @@ import { profile, put_profile } from '../../../apis/apis'
 import axios from 'axios';
 
 interface ProfileEditProps {
-    userId: number ;  
+    userId: number;
 }
-
 const ProfileEdit: React.FC<ProfileEditProps> = ({ userId }) => {
+    // 現在のプロファイル状態を追跡
     const [profileModel, setProfile] = useState({
         name: '',
         email: '',
         bio: '',
-        gender: '0' // 初期値を未回答(0)に設定
+        gender: '0', // 初期値を未回答(0)に設定
     });
+    // 元のプロファイルデータを保持
+    const [originalProfile, setOriginalProfile] = useState({
+        name: '',
+        email: '',
+        bio: '',
+        gender: '0', // 初期値を未回答(0)に設定
+    });
+    const [updateStatus, setUpdateStatus] = useState('');
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -21,9 +30,10 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ userId }) => {
         const fetchProfile = async () => {
             try {
                 const { data } = await profile(userId);
-                setProfile(data);
+                setProfile(data); // ユーザーが編集できるプロファイル状態を設定
+                setOriginalProfile(data); // 元のプロファイルデータを保持
             } catch (err) {
-                setError('プロフィール情報の取得に失敗しました。');
+                setError('プロファイル情報の取得に失敗しました。');
             } finally {
                 setLoading(false);
             }
@@ -33,19 +43,22 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ userId }) => {
 
     // フォームの値が変更されたときのハンドラー
     const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = event.target as HTMLInputElement | HTMLTextAreaElement;
-        setProfile({ ...profileModel, [name]: value });
+        const { name, value } = event.target;
+        setProfile(prevProfile => ({ ...prevProfile, [name]: value }));
     };
-
 
     // 更新処理
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            await put_profile(userId, profile);
-            alert('プロフィールを更新しました。');
+            const updatedProfile = { ...originalProfile, ...profileModel }; // 元のプロファイルと変更をマージ
+            await put_profile(userId, updatedProfile); // マージしたプロファイルで更新
+            setUpdateStatus('success');
         } catch (err) {
-            setError('プロフィールの更新に失敗しました。');
+            console.error(err);
+            setError('プロファイルの更新に失敗しました。');
+            setUpdateStatus('error');
+
         }
     };
 
@@ -60,54 +73,61 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ userId }) => {
 
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
-            <div className="form-group">
-                <label htmlFor="name">名前:</label>
-                <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    value={profile.name}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="bio">自己紹介:</label>
-                <textarea
-                    name="bio"
-                    id="bio"
-                    value={profileModel.bio}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="gender">性別:</label>
-                <select
-                    name="gender"
-                    id="gender"
-                    value={profileModel.gender}
-                    onChange={handleChangeGender}
-                    className="form-control">
-                    <option value="0">未回答</option>
-                    <option value="1">男性</option>
-                    <option value="2">女性</option>
-                </select>
-            </div>
-            <div className="form-group">
-                <label htmlFor="email">メール:</label>
-                <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={profileModel.email}
-                    onChange={handleChange}
-                    className="form-control"
-                />
-            </div>
-            <button type="submit" className="submit-button">更新</button>
-        </form>
+        <div>
+            {updateStatus === 'success' ? (
+                <div>プロフィールの更新が成功しました！</div>
+            ) : (
+                <form onSubmit={handleSubmit} className="form-container">
+                    <div className="form-group">
+                        <label htmlFor="name">表示名:</label>
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            value={profile.name}
+                            onChange={handleChange}
+                            className="form-control"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="bio">自己紹介:</label>
+                        <textarea
+                            name="bio"
+                            id="bio"
+                            value={profileModel.bio}
+                            onChange={handleChange}
+                            className="form-control"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="gender">性別:</label>
+                        <select
+                            name="gender"
+                            id="gender"
+                            value={profileModel.gender}
+                            onChange={handleChangeGender}
+                            className="form-control">
+                            <option value="0">未回答</option>
+                            <option value="1">男性</option>
+                            <option value="2">女性</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">メール:</label>
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            value={profileModel.email}
+                            onChange={handleChange}
+                            className="form-control"
+                        />
+                    </div>
+                    <button type="submit" className="submit-button">更新</button>
+                </form>
+            )}
+        </div>
+        
     );
 };
 

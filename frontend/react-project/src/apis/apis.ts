@@ -43,6 +43,7 @@ export const mypage = async (id: number) => {
 
 export const profile = async (id: number) => {
     const response = await axios.get(API_BASE_URL + `mypage/profile/${id}`);
+    console.log(response);
     return response
 }
 

@@ -4,6 +4,7 @@ from typing import Optional
 from bson.objectid import ObjectId
 from library.models import User
 import library.hash
+import library.tools
 import urllib.parse
 import logging
 
@@ -47,59 +48,6 @@ async def get_db_client() -> DBClient:
 async def get_db():
     db_client = await get_db_client()
     return db_client.get_db()
-
-
-async def get_todos_list():
-    try:
-        logger.info("get_todos_list")
-        db = await get_db()
-        result = []
-        rows = db.todos.find()
-        for row in rows:
-            result.append(
-                {
-                    "id": row["id"],
-                    "content": row["content"],
-                    "done": row["done"],
-                }
-            )
-        return result
-    except Exception as e:
-        logger.error(f"error get_todos_list {e}")
-        return e
-
-
-async def upsert_todos_list(param: dict):
-    try:
-        logger.info("upsert_todos_list")
-        db = await get_db()
-        result = db.todos.find_one({"id": param["id"]})
-        if result is None:
-            db.todos.insert(param)
-        else:
-            db.todos.update_one(
-                filter={"id": result["id"]},
-                update={"$set": {"done": param["done"]}},
-                upsert=True,
-            )
-    except Exception as e:
-        logger.error(f"error post_todos_list {e}")
-        return e
-
-
-async def delete_todos_list(param: str):
-    try:
-        logger.info("delete_todos_list")
-        db = await get_db()
-        result = db.todos.find_one({"id": param})
-        if result.count() == 0:
-            raise Exception()
-        else:
-            db.todos.deleteOne({"id": param})
-            return True
-    except Exception as e:
-        logger.error(f"delete_todos_list: {e}")
-        return False
 
 
 async def register(param: User):
@@ -256,8 +204,21 @@ async def get_mypage(userid) -> dict:
 async def get_user_info(userid) -> dict:
     logger.info("get_user_info start")
     try:
+        result = {}
         db = await get_db()
-        return db.users.find({"id": userid})
+        res = db.users.find({"id": userid})
+        for row in res:
+            result = {
+                "id": row["id"],
+                "name": row["name"],
+                "email": row["email"],
+                "user_image": row["user_image"],
+                "user_comment": row["user_comment"],
+                "gender": row["gender"],
+                "location": row["location"],
+            }
+        return result
+
     except Exception as e:
         logger.error(f"get_rankign error {e}")
 
@@ -266,8 +227,27 @@ async def put_profile(userid, profile):
     logger.info("put_profile start")
     try:
         db = await get_db()
-        user_info = db.users.find({"id": userid})
-        user_info
-        return
+        unixtime = library.tools.get_unixtime()
+        profile_dict = profile.dict()
+        params = [
+            UpdateOne(
+                {"id": userid},
+                {
+                    "$set": {
+                        "name": profile_dict["name"],
+                        "bio": profile_dict["bio"],
+                        "gender": profile_dict["gender"],
+                        "email": profile_dict["email"],
+                        "update_time": unixtime,
+                    }
+                },
+                upsert=True,
+            )
+        ]
+        db.users.bulk_write(params)
+        ret = True
     except Exception as e:
         logger.error(f"put_profile error {e}")
+        ret = False
+    finally:
+        return ret
