@@ -3,36 +3,7 @@ import ReviewSlider from './layout/slider/ReviewSlider';
 import { Review } from "../types/types";
 
 const HomePage = () => {
-    const reviews: Review[] = [
-        {
-            id: 1,
-            author: 'John Smith',
-            text: 'えええ'
-        },
-        {
-            id: 2,
-            author: 'Jane Doe',
-            text: 'ううう'
-        },
-        {
-            id: 3,
-            author: 'Mike Johnson',
-            text: 'いいい'
-        },
-        {
-            id: 4,
-            author: 'Alice Williams',
-            text:
-                'あああ',
-        },
-        {
-            id: 5,
-            author: 'Alice Williams',
-            text:
-                'おおお',
-        },
-
-    ]
+    const reviews: Review[] = []
     // テスト的に値を入れている　本来はdbから値を取ってくる
     const rankings: Review[] = [
         {

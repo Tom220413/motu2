@@ -1,32 +1,52 @@
-import React, { useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
-import { useLogin } from './AuthUserContext'
+import React, { useState } from 'react';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from './firebase'; // Firebase設定ファイルのパスを適切に設定してください
+import { useNavigate } from 'react-router-dom'; // ログイン後のリダイレクト用
 
-const LoginPage = () => {
-    const history = useHistory()
-    const location = useLocation<{ from: { pathname: string } } | undefined>()
-    const login = useLogin()
-    const [userId, setUserId] = useState("")
-    const [errorMessage, setErrorMessage] = useState("")
+function LoginPage() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const handleLogin = async () => {
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value);
+    };
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setError('');
         try {
-            await login(userId)
-            history.replace(location.state?.from || '/')
-        } catch (error) {
-            console.error(error)
-            setErrorMessage("ログインに失敗しました")
+            await signInWithEmailAndPassword(auth, email, password);
+            console.log("ログイン成功");
+            navigate('/dashboard'); // ログイン成功後にリダイレクト
+        } catch (error: any) {
+            setError(error.message);
         }
-    }
+    };
 
     return (
-        <div>
-            <p>{errorMessage}</p>
-            <input type="text" value={userId} onChange={e => setUserId(e.target.value)} />
-            <button onClick={handleLogin}>送信</button>
-            <button onClick={() => history.push("/")}>ホームへアクセスしてみる</button>
-        </div>
-    )
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label>
+                    メールアドレス:
+                    <input type="email" value={email} onChange={handleEmailChange} />
+                </label>
+            </div>
+            <div>
+                <label>
+                    パスワード:
+                    <input type="password" value={password} onChange={handlePasswordChange} />
+                </label>
+            </div>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <button type="submit">ログイン</button>
+        </form>
+    );
 }
 
-export default LoginPage
+export default LoginPage;

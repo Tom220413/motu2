@@ -21,9 +21,17 @@ services:
     build:
       context: .
       dockerfile: docker/nodejs/Dockerfile
+    environment:
+      - REACT_APP_API_BASE_URL=http://localhost:8080
+      - REACT_APP_FIREBASE_API_KEY=$REACT_APP_FIREBASE_API_KEY 
+      - REACT_APP_FIREBASE_AUTH_DOMAIN=$REACT_APP_FIREBASE_AUTH_DOMAIN
+      - REACT_APP_FIREBASE_PROJECT_ID=$REACT_APP_FIREBASE_PROJECT_ID
+      - REACT_APP_FIREBASE_STORAGE_BUCKET=$REACT_APP_FIREBASE_STORAGE_BUCKET
+      - REACT_APP_FIREBASE_MESSAGE_SENDER_ID=$REACT_APP_FIREBASE_MESSAGE_SENDER_ID
+      - REACT_APP_FIREBASE_APP_ID=$REACT_APP_FIREBASE_APP_ID
     volumes:
       - ./frontend:/src # ローカルをコンテナ内にマウント
-    command: sh -c "cd react-project && npm cache clean --force && yarn start" #コンテナを立ち上げたときに自動的にbuildする
+    command: sh -c "cd react-project && yarn start" #コンテナを立ち上げたときに自動的にbuildする
     ports:
       - "3000:3000"
     networks:

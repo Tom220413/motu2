@@ -1,11 +1,8 @@
 import axios from "axios";
 import { User } from "../types/types";
 
-
-const API_BASE_URL = "http://localhost:8080/db/";
-
 export const apiClient = axios.create({
-    baseURL: API_BASE_URL,
+    baseURL: process.env.REACT_APP_API_BASE_URL
 });
 export const fetchUsers = () => {
     return apiClient.get('/users');
@@ -23,31 +20,35 @@ export const deleteUser = (id: number) => {
     return apiClient.delete(`/users/${id}`);
 }
 export const search = async (q: string, location: string) => {
-    const response = await axios.get(API_BASE_URL + `search/?q=${q}&location=${location}`);
+    const response = await apiClient.get(`db/search/?q=${q}&location=${location}`);
     return response
 }
 
 export const ranking = async () => {
-    const response = await axios.get(API_BASE_URL + `ranking`);
+    const response = await apiClient.get(`db/ranking`);
     return response
 }
 export const store = async (id: string) => {
-    const response = await axios.get(API_BASE_URL + `store/?id=${id}`)
+    const response = await apiClient.get(`db/store/?id=${id}`)
     return response
 }
 
 export const mypage = async (id: number) => {
-    const response = await axios.get(API_BASE_URL + `mypage/${id}`);
+    const response = await apiClient.get(`db/mypage/${id}`);
     return response
 }
 
 export const profile = async (id: number) => {
-    const response = await axios.get(API_BASE_URL + `mypage/profile/${id}`);
-    console.log(response);
+    const response = await apiClient.get(`db/mypage/profile/${id}`);
     return response
 }
 
 export const put_profile = async (id: number, profile: any) => {
-    const response = await axios.put(API_BASE_URL + `mypage/profile/${id}`, profile);
+    const response = await apiClient.put(`db/mypage/profile/${id}`, profile);
+    return response
+}
+
+export const getPrefectures = async () => {
+    const response = apiClient.get('/db/prefectures');
     return response
 }

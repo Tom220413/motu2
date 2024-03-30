@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Prefecture } from '../../../types/types';
+// getPrefectures関数をインポートします
+import { getPrefectures } from '../../../apis/apis'
 
-const instance = axios.create({
-  baseURL: 'http://localhost:8080',
-});
 
 // / テストデータ
 const testprefectures: Prefecture[] = [
@@ -51,12 +50,16 @@ function LocationSearch() {
   };
 
   useEffect(() => {
-    instance.get('/db/prefectures')
+    // getPrefectures関数を呼び出して、都道府県データを取得
+    getPrefectures()
       .then(response => {
         setPrefectures(response.data);
       })
       .catch(error => {
+        // ここで、エラーが発生した場合のフォールバック処理を行います。
+        // 例えば、テストデータを設定するなど。
         setPrefecturesWithTestPrefectures();
+        console.log(error)
       });
   }, []);
 
