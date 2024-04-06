@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { BrowserRouter as Router, Redirect, Route, RouteProps, Switch, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, RouteProps, Routes, BrowserRouter } from 'react-router-dom';
 
 import { Map } from "./parts/map/Map";
 import SearchHeader from './parts/search/SearchHeader';
@@ -65,23 +65,25 @@ function App() {
             <Router>
                 <div className="maincontainer">
                     <SearchHeader />
-                    <Switch>
-                        <Route exact path="/">
-                            <nav className="tabs">
-                                {tabs.map((tab) => (
-                                    <a
-                                        key={tab.id}
-                                        className={activeTab === tab.id ? "active" : ""}
-                                        onClick={() => setActiveTab(tab.id)}
-                                    >
-                                        {tab.label}
-                                    </a>
-                                ))}
-                            </nav>
-                            <div className="tab-content">{tabs[activeTab].content}</div>
-                        </Route>
-                        <Route path="/store/:id" component={Store} />
-                    </Switch>
+                    <Routes>
+                        <Route path="/" element={
+                            <>
+                                <nav className="tabs">
+                                    {tabs.map((tab) => (
+                                        <a
+                                            key={tab.id}
+                                            className={activeTab === tab.id ? "active" : ""}
+                                            onClick={() => setActiveTab(tab.id)}
+                                        >
+                                            {tab.label}
+                                        </a>
+                                    ))}
+                                </nav>
+                                <div className="tab-content">{tabs[activeTab].content}</div>
+                            </>
+                        } />
+                        <Route path="/store/:id" element={<Store />} />
+                    </Routes>
                 </div>
             </Router>
         </>

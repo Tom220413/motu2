@@ -10,12 +10,12 @@ export const Store: React.FC = () => {
     useEffect(() => {
         const fetchStoreData = async () => {
             try {
-                const response = await store(id);
-                const data = response.data;
-                // 以降の処理...
-                // // const data = await response.json();
-                // setResults(data)
-                setStoreData(data);
+                if (typeof id === 'string') {
+                    const response = await store(id);
+                    const data = response.data;
+                    // 以降の処理...
+                    setStoreData(data);
+                }
             } catch (error) {
                 console.error(error);
             }
