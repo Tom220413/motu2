@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from './firebase'; // Firebase設定ファイルのパスを適切に設定してください
+import { auth } from './Firebase'; // Firebase設定ファイルのパスを適切に設定してください
 
 function SignupForm() {
     const [name, setName] = useState('');

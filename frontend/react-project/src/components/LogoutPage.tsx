@@ -1,15 +1,25 @@
+// LogoutPage.tsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { signOut } from "firebase/auth";
-import { auth } from './firebase'; // Firebase設定ファイルのパスを適切に設定してください
-import { useNavigate } from 'react-router-dom'; // ログアウト後のリダイレクト用
+import { auth } from './Firebase'; // Firebase設定ファイルのパスを適切に設定してください
+import { AuthUser } from "../types/types";
 
-function LogoutPage() {
+interface LogoutPageProps {
+    setAuthUser: (user: AuthUser | null) => void;
+}
+
+const LogoutPage: React.FC<LogoutPageProps> = ({ setAuthUser }) => {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        await signOut(auth);
-        console.log("ログアウトしました");
-        navigate('/login'); // ログアウト後にリダイレクト
+        try {
+            await signOut(auth); // Firebase authを使ってログアウト
+            setAuthUser(null); // ユーザー状態をnullに更新
+            navigate('/'); // ホームページにリダイレクト
+        } catch (error: any) {
+            console.error("ログアウトエラー", error.message);
+        }
     };
 
     return (
@@ -17,6 +27,6 @@ function LogoutPage() {
             <button onClick={handleLogout}>ログアウト</button>
         </div>
     );
-}
+};
 
 export default LogoutPage;

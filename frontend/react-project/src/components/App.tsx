@@ -17,49 +17,35 @@ import Mypage from "./page/mypage/Mypage";
 
 function App() {
     const [activeTab, setActiveTab] = useState(0);
-    const search = () => {
-        return (
-            < Search />
-        )
-    }
-    const ranking = () => {
-        return (
-            < Ranking />
-        )
-    }
-
-    const top = () => {
-        return (
-            < HomePage />
-        )
-    }
-    const mypage = () => {
-        return (
-            < Mypage />
-        )
-    }
+    const [authUser, setAuthUser] = useState<AuthUser | null>(null);
     const tabs: Tab[] = [
         {
             id: 0,
             label: "トップ",
-            content: top(),
+            content: < HomePage />,
         },
         {
             id: 1,
             label: "検索",
-            content: search(),
+            content: <Search />,
         },
         {
             id: 2,
             label: "ランキング",
-            content: ranking(),
+            content: <Ranking />,
         },
-        {
-            id: 3,
-            label: "マイページ",
-            content: mypage(),
-        },
+
     ];
+    if (authUser) {
+        tabs.push(
+            {
+                id: 3,
+            label: "マイページ",
+            content: < Mypage />,
+            }
+        )
+    }
+       
     return (
         <>
             <Router>
@@ -83,6 +69,9 @@ function App() {
                             </>
                         } />
                         <Route path="/store/:id" element={<Store />} />
+                        <Route path="/login" element={<LoginPage setAuthUser={setAuthUser} />} />
+                        <Route path="/logout" element={<LogoutPage setAuthUser={setAuthUser} />} />
+                        <Route path="/logout" element={<LogoutPage setAuthUser={setAuthUser} />} />
                     </Routes>
                 </div>
             </Router>

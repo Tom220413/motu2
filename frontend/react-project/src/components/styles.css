@@ -434,3 +434,19 @@ rankingページのcss
 .submit-button:hover {
     background-color: #45a049;
 }
+
+.rankingbox {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.ranking-item {
+    flex: 0 1 auto;
+    /* 項目の幅は内容に基づく */
+}
+
+.center {
+    order: -1;
+    /* 真ん中の項目を先頭に */
+}

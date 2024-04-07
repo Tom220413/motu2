@@ -12,6 +12,8 @@ from library.db import (
     get_mypage,
     get_user_info,
     put_profile,
+    get_review,
+    get_rankingtoppage,
 )
 from library.models import User, PutProfile
 import logging
@@ -62,6 +64,16 @@ async def get_ranking_api():
         return JSONResponse(status_code=500, content=traceback.format_exc())
 
 
+@router.get("/rankingtoppage", name="dbから対象のランキングを取得する(toppage用)")
+async def get_rankingtoppage_api():
+    try:
+        return await get_rankingtoppage()
+    except HTTPException as httpe:
+        return JSONResponse(status_code=400, content=traceback.format_exc())
+    except Exception as e:
+        return JSONResponse(status_code=500, content=traceback.format_exc())
+
+
 @router.get("/store", name="dbから店舗詳細を取得する")
 async def get_store_api(
     id: str = Query(None),
@@ -101,7 +113,7 @@ async def get_user_info_api(
         return JSONResponse(status_code=500, content=traceback.format_exc())
 
 
-@router.put("/mypage/profile/{user_id}", name="mypageのreview、iine、favorite件数を取得する")
+@router.put("/mypage/profile/{user_id}", name="mypageのreview、iine、favorite件数を更新する")
 async def put_profile_api(
     user_id: int = Path(..., title="userid", example=1),
     profile: PutProfile = Body(...),
@@ -111,6 +123,16 @@ async def put_profile_api(
         result = await put_profile(user_id, profile)
 
         return result
+    except HTTPException as httpe:
+        return JSONResponse(status_code=400, content=traceback.format_exc())
+    except Exception as e:
+        return JSONResponse(status_code=500, content=traceback.format_exc())
+
+
+@router.get("/review", name="dbからreview情報を取得する")
+async def get_review_api():
+    try:
+        return await get_review()
     except HTTPException as httpe:
         return JSONResponse(status_code=400, content=traceback.format_exc())
     except Exception as e:

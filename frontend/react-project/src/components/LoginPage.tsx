@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from './firebase'; // Firebase設定ファイルのパスを適切に設定してください
+import { auth } from './Firebase'; // Firebase設定ファイルのパスを適切に設定してください
 import { useNavigate } from 'react-router-dom'; // ログイン後のリダイレクト用
+import { AuthUser } from "../types/types";
 
-function LoginPage() {
+interface LoginPageProps {
+    setAuthUser: (user: AuthUser | null) => void;// ここでは簡単のため any 型を使用
+}
+function LoginPage({ setAuthUser }: LoginPageProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -19,11 +23,11 @@ function LoginPage() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setError('');
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
             console.log("ログイン成功");
-            navigate('/dashboard'); // ログイン成功後にリダイレクト
+            setAuthUser(userCredential.user); // ログインしたユーザー情報で状態を更新
+            navigate('/dashboard');
         } catch (error: any) {
             setError(error.message);
         }

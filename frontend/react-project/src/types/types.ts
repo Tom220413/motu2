@@ -27,11 +27,6 @@ export type Tab = {
     content: JSX.Element;
 }
 
-export type Review = {
-    id: number;
-    author: string;
-    text: string;
-}
 
 export type AuthUser = {
     userid: string;
@@ -79,4 +74,26 @@ export type MypageCountType = {
     review_count: number,
     iine_count: number,
     favorite_count: number,
+}
+
+export type RankingTop3Type = {
+    storeid: number,
+    storename: string,
+    address: string,
+    count: number,
+}
+
+export type Image = {
+    id: number;
+    url: string;
+    description: string;
+}
+
+export type Review = {
+    storeId: number;
+    menu: string;
+    soup: string;
+    shime: string;
+    comment: string;
+    image: Image[]; // Image型の配列
 }

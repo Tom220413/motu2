@@ -28,6 +28,10 @@ export const ranking = async () => {
     const response = await apiClient.get(`db/ranking`);
     return response
 }
+export const rankingtoppage = async () => {
+    const response = await apiClient.get(`db/rankingtoppage`);
+    return response
+}
 export const store = async (id: string) => {
     const response = await apiClient.get(`db/store/?id=${id}`)
     return response
@@ -50,5 +54,10 @@ export const put_profile = async (id: number, profile: any) => {
 
 export const getPrefectures = async () => {
     const response = apiClient.get('/db/prefectures');
+    return response
+}
+
+export const review = async () => {
+    const response = await apiClient.get(`db/review`);
     return response
 }

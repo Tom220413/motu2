@@ -6,3 +6,4 @@ yarn-error.log*
 ~/Documents/portfolio/motu2/mongodb_data1/*
 mongodb_data1*
 .DS_Store
+.env

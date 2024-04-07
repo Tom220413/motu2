@@ -1,51 +1,34 @@
-import React from 'react'
-import ReviewSlider from './layout/slider/ReviewSlider';
-import { Review } from "../types/types";
+import React, { useState, useEffect } from 'react';
+import { rankingtoppage, review } from '../apis/apis';
+import { Review, RankingTop3Type } from "../types/types";
+import ReviewSlider from '../components/parts/reviewslider/reviewslider';
 
 const HomePage = () => {
-    const reviews: Review[] = []
-    // テスト的に値を入れている　本来はdbから値を取ってくる
-    const rankings: Review[] = [
-        {
-            id: 1,
-            author: '1位',
-            text: 'えええ'
-        },
-        {
-            id: 2,
-            author: '2位',
-            text: 'ううう'
-        },
-        {
-            id: 3,
-            author: '3位',
-            text: 'いいい'
-        },
-        {
-            id: 4,
-            author: '4位',
-            text:
-                'あああ',
-        },
-        {
-            id: 5,
-            author: '5位',
-            text:
-                'おおお',
-        },
+    const [reviews, setReviews] = useState<Review[]>([]);
+    const [rankings, setRankings] = useState<RankingTop3Type[]>([]);
 
-    ]
+    useEffect(() => {
+        const fetchRankings = async () => {
+            try {
+                const response = await rankingtoppage(); // ranking関数の呼び出し
+                setRankings(response.data);
+            } catch (error) {
+                console.error("ランキングデータの取得に失敗しました", error);
+            }
+        };
 
-    const ranking = (rankings: Review[]) => {
-        return (
-            <ReviewSlider reviews={rankings || []} />
-        )
-    }
-    const review = (reviews: Review[]) => {
-        return (
-            <ReviewSlider reviews={reviews || []} />
-        )
-    }
+        const fetchReviews = async () => {
+            try {
+                const response = await review(); // ranking関数の呼び出し
+                setReviews(response.data);
+            } catch (error) {
+                console.error("レビューデータの取得に失敗しました", error);
+            }
+        };
+
+        fetchRankings();
+        fetchReviews();
+    }, []);
 
     return (
         <>
@@ -65,11 +48,17 @@ const HomePage = () => {
                     </table>
                 </div>
                 <div className='reviewbox'>
-                    {review(reviews)}
+                    <ReviewSlider reviews={reviews} />
                 </div>
                 <br />
-                <div className='rankingbox'>
-                    {ranking(rankings)}
+                <div className="rankingbox">
+                    {rankings.map((rank, index) => (
+                        <div key={rank.storeid} className={`ranking-item ${index === 1 ? 'center' : ''}`}>
+                            <h2>{index + 1}位: {rank.storename}</h2>
+                            <p>{rank.address}</p>
+                            <p>レビュー数: {rank.count}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </>

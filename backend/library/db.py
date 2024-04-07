@@ -19,10 +19,6 @@ class DBClient:
         db_password = os.environ.get("MONGO_DATABASE_PASSWORD", "dummy")
         db_port = os.environ.get("DB_PORT", "27017")
 
-        db_param = os.environ.get(
-            "OPS_DB_PARAM",
-            f"?ssl=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false",
-        )
         self.conn = MongoClient(
             f"mongodb://{db_user}:{db_password}@{db_host}:{db_port}",
             tz_aware=True,
@@ -159,8 +155,49 @@ async def get_store(id: str):
         return None
 
 
-async def get_ranking():
+async def get_rankingtoppage(rankingpageflg=1):
     logger.info("get_rankign start")
+    try:
+        result = []
+        db = await get_db()
+        pipeline = [
+            {
+                "$group": {
+                    "_id": "$storeId",  # storeIdでグループ化
+                    "count": {"$sum": 1},  # 各グループのドキュメント数をカウント
+                    "reviews": {
+                        "$push": {  # reviews配列に各レビューの情報を追加
+                            "menu": "$menu",
+                            "soup": "$soup",
+                            "shime": "$shime",
+                            "image": "$image",
+                            "comment": "$comment",
+                        }
+                    },
+                }
+            },
+            {"$sort": {"count": -1}},  # レビューの数で降順に並べ替え
+            {"$limit": 3},
+        ]
+        res = list(db.review.aggregate(pipeline))
+        for i in res:
+            storeinfo = db.store.find_one({"id": i["_id"]})
+            result.append(
+                {
+                    "storeId": i.get("_id"),
+                    "count": i.get("count"),
+                    "storename": storeinfo["name"],
+                    "address": storeinfo["address"],
+                }
+            )
+        return result
+    except Exception as e:
+        logger.error(f"get_rankign error {e}")
+        return None
+
+
+async def get_ranking():
+    logger.info("get_rankingtoppage start")
     try:
         result = []
         db = await get_db()
@@ -251,3 +288,28 @@ async def put_profile(userid, profile):
         ret = False
     finally:
         return ret
+
+
+async def get_review():
+    logger.info("get_review start")
+    try:
+        result = []
+        db = await get_db()
+        res = db.review.find()
+        for i in res:
+            result.append(
+                {
+                    "storeId": i.get("storeId"),
+                    "menu": i.get("menu"),
+                    "soup": i.get("soup"),
+                    "shime": i.get("shime"),
+                    "image": i.get("image"),
+                    "comment": i.get("comment"),
+                    "userId": i.get("userId"),
+                    "updatedate": i.get("updatedate"),
+                }
+            )
+        return result
+    except Exception as e:
+        logger.error(f"get_review error {e}")
+        return None
