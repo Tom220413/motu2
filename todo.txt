@@ -16,3 +16,15 @@ homepageのレビューのところは何を表示するべきか？
 レビューコメント(必須)
 何を食べたか(必須)
 写真(検討)
+
+インフラ関係
+awsで最小額で運用すること、コストはできるだけかけない
+→githubactionsとansibleを活用して、自動化を目指す
+https://qiita.com/masa3521/items/2aa17e1fda88fd535243
+https://qiita.com/okoppe8/items/dc1de147a36797442e4c
+
+fireabase認証はやめてcognitoでやってみよう
+
+
+clouadfrareとawsのダブルの構成
+https://note.com/delta_sevenrich/n/ne782c892ad20
