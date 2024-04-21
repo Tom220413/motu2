@@ -7,6 +7,7 @@ import { AuthUser } from "../types/types";
 interface LoginPageProps {
     setAuthUser: (user: AuthUser | null) => void;// ここでは簡単のため any 型を使用
 }
+
 function LoginPage({ setAuthUser }: LoginPageProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
