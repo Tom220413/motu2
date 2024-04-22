@@ -1,4 +1,5 @@
-import Amplify, { Auth } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
+import Amplify from 'aws-amplify';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AwsConfigAuth from '../aws/atuh';
 
@@ -21,7 +22,7 @@ interface Result {
 
 const authContext = createContext({} as UseAuth)
 
-export const ProvideAuth: React.FC = ({ children }) => {
+export const ProvideAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const auth = useProvideAuth();
     return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 };

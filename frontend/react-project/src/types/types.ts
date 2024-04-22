@@ -29,7 +29,7 @@ export type Tab = {
 
 
 export type AuthUser = {
-    userid: string;
+    user: User;
 }
 
 export type OperationType = {

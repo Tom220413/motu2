@@ -15,7 +15,6 @@ export const AuthUserProvider: React.FC<Props> = ({ children }) => {
     const [authUser, setAuthUser] = useState<AuthUser | null>(null)
     const login = async (userid: string) => {
         //　ログイン処理　await login()
-        setAuthUser({ userid })
     }
     const logout = async () => {
         //await logout() //ログアウト処理
@@ -26,7 +25,6 @@ export const AuthUserProvider: React.FC<Props> = ({ children }) => {
         const token = localStorage.getItem("token")
         if (token) {
             // トークンが存在する場合はログイン状態として扱う
-            setAuthUser({ userid: "dummy_userid" })
         }
     }, [])
 

@@ -28,3 +28,6 @@ clouadfrareとawsのダブルの構成
 https://note.com/delta_sevenrich/n/ne782c892ad20
 
 →local環境で試すときはmotoを使ってcongnitoをモックして使ってみよう
+
+立ち上げれはしたけど、メモリ不足でフロントが勝手に落ちるっぽい
+認証の部分がまだ実装できていないから整理する
