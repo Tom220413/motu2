@@ -1,7 +1,7 @@
 import { Auth } from 'aws-amplify';
 import Amplify from 'aws-amplify';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import AwsConfigAuth from '../aws/atuh';
+import AwsConfigAuth from '../aws/auth';
 
 Amplify.configure({ Auth: AwsConfigAuth });
 
@@ -60,7 +60,7 @@ const useProvideAuth = (): UseAuth => {
         } catch (error) {
             return {
                 success: false,
-                message: '認証に失敗しました。',
+                message: error + '認証に失敗しました。',
             };
         }
     };
