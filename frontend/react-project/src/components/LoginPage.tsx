@@ -5,6 +5,7 @@ import {
     CognitoUser
 } from "amazon-cognito-identity-js";
 import { userPool } from './Congnito'; // Import the user pool configuration from another file
+import "./styles.css";
 
 export function SignIn() {
     const [username, setUsername] = useState('');
@@ -25,25 +26,30 @@ export function SignIn() {
         };
 
         const cognitoUser = new CognitoUser(userData);
-
-        cognitoUser.authenticateUser(authenticationDetails, {
-            onSuccess: function (result) {
-                console.log('Login successful:', result);
-                // Redirect to another route upon successful login
-                navigate('/home'); // Change '/home' to your desired route
-            },
-            onFailure: function (err) {
-                console.error('Login failed:', err);
-                // Optionally handle errors, e.g., show an alert or update component state
-                alert('Login failed: ' + err.message);
-            }
-        });
+        try {
+            cognitoUser.authenticateUser(authenticationDetails, {
+                onSuccess: function (result) {
+                    console.log('Login successful:', result);
+                    // Redirect to another route upon successful login
+                    navigate('/home'); // Change '/home' to your desired route
+                },
+                onFailure: function (err) {
+                    console.error('Login failed:', err);
+                    // Optionally handle errors, e.g., show an alert or update component state
+                    alert('Login failed: ' + err.message);
+                }
+            });
+        } catch (err) {
+            console.error('エラー発生してーーーーる');
+            console.error(err);
+        }
+        
     };
 
     return (
-        <form noValidate onSubmit={executeSignIn}>
+        <form className="login-form" noValidate onSubmit={executeSignIn}>
             <div>
-                <label htmlFor="username">メールアドレス: </label>
+                <label htmlFor="username">メールアドレス:</label>
                 <input
                     id="username"
                     type="email"
@@ -52,7 +58,7 @@ export function SignIn() {
                 />
             </div>
             <div>
-                <label htmlFor="password">パスワード: </label>
+                <label htmlFor="password">パスワード:</label>
                 <input
                     id="password"
                     type="password"
@@ -61,7 +67,9 @@ export function SignIn() {
                 />
             </div>
             <button type="submit">ログイン</button>
-            <button onClick={() => navigate(-1)} type="button">戻る</button>
+            <button onClick={() => navigate('/')} type="button">戻る</button>
+            <button onClick={() => navigate('/signup')} type="button">アカウント新規作成</button>
         </form>
+
     );
 }

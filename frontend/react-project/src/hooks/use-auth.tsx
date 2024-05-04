@@ -24,21 +24,28 @@ export const ProvideAuth: React.FC<Props>= ({ children }) => {
     const [user, setUser] = useState<CognitoUser | null>(null);
     const isAuthenticated = Boolean(user);
 
-    const signUp = (username: string, password: string, email: string) => {
-        const attributeList = [];
-        const dataEmail = { Name: "email", Value: email };
-        const attributeEmail = new CognitoUserAttribute(dataEmail);
-        attributeList.push(attributeEmail);
+    const signUp = async (username: string, password: string, email: string) => {
+        const userAttributes = [
+            { Name: "name", Value: username },
+            { Name: "family_name", Value: "テスト" },
+            { Name: "given_name", Value: "テスト" },
+            { Name: "email", Value: email },
+            { Name: "address", Value: "aa" },
+            { Name: "gender", Value: "0" }
+        ];
+        const attributeList = userAttributes.map(attr => new CognitoUserAttribute(attr));
 
-        userPool.signUp(username, password, attributeList, [], (err, result) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            if (result) {
-                console.log('User name is ' + result.user.getUsername());
-                setUser(result.user);
-            }
+        return new Promise((resolve, reject) => {
+            userPool.signUp(username, password, attributeList, [], (err, result) => {
+                if (err) {
+                    console.error(err);
+                    reject({ success: false, message: err.message });
+                } else {
+                    console.log('User name is ' + result.user.getUsername());
+                    setUser(result.user);
+                    resolve({ success: true, user: result.user });
+                }
+            });
         });
     };
 

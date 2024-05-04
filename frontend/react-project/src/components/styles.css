@@ -450,3 +450,55 @@ rankingページのcss
     order: -1;
     /* 真ん中の項目を先頭に */
 }
+
+/* ログインページ */
+.login-form {
+    background-color: #ffffff;
+    max-width: 400px;
+    padding: 20px;
+    margin: 100px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    /* 追加: ボックスサイジングをborder-boxに設定 */
+}
+
+.login-form label {
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.login-form input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    /* 追加: ボックスサイジングをborder-boxに設定 */
+}
+
+.login-form button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    /* 追加: ボックスサイジングをborder-boxに設定 */
+}
+
+.login-form button:hover {
+    background-color: #004494;
+}
+
+/* スペースを追加して視覚的に区切る */
+.login-form button:not(:first-of-type) {
+    margin-top: 10px;
+}

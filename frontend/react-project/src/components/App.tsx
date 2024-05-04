@@ -7,6 +7,7 @@ import { Store } from './page/store/Store';
 import Ranking from "./page/ranking/Ranking";
 import Mypage from "./page/mypage/Mypage";
 import { SignIn } from "./LoginPage";
+import SignupForm from "./SignupForm"
 import { Map } from "./parts/map/Map";
 import SearchHeader from './parts/search/SearchHeader';
 import { Search } from "./parts/search/Search";
@@ -37,7 +38,7 @@ function App() {
         {
             id: 3,
             label: "マイページ",
-            content: auth.isAuthenticated ? <Mypage /> : <HomePage />,
+            content: auth.isAuthenticated ? <Mypage /> : <SignIn />,
         },
     ];
 
@@ -63,8 +64,8 @@ function App() {
                         </>
                     } />
                     <Route path="/store/:id" element={<Store />} />
-                    <Route path="/signin" element={<SignIn />} />
-                    {/* <Route path="/dashboard" element={<PrivateDashboard />} /> */}
+                    <Route path="/login" element={<SignIn />} />
+                    <Route path="/signup" element={<SignupForm />} />
                 </Routes>
             </div>
         </Router>

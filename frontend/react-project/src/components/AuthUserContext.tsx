@@ -14,7 +14,8 @@ type Props = {
 export const AuthUserProvider: React.FC<Props> = ({ children }) => {
     const [authUser, setAuthUser] = useState<AuthUser | null>(null)
     const login = async (userid: string) => {
-        //　ログイン処理　await login()
+        //　ログイン処理　
+        await login(userid)
     }
     const logout = async () => {
         //await logout() //ログアウト処理
