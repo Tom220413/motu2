@@ -23,6 +23,7 @@ export const AuthUserProvider: React.FC<Props> = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token")
+        console.log(token)
         if (token) {
             // トークンが存在する場合はログイン状態として扱う
         }

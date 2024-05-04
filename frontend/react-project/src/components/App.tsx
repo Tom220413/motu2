@@ -17,24 +17,6 @@ function App() {
     const auth = useAuth();  // このフックから認証関連の情報とメソッドを取得
     const [activeTab, setActiveTab] = useState(0);
 
-    if (auth.isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    const TopPage = () => (
-        <div>
-            <p>トップページ</p>
-            <p>{auth.isAuthenticated ? 'ログイン済' : '未ログイン'}</p>
-            {!auth.isAuthenticated && <p><Link to="/signin">ログイン</Link></p>}
-        </div>
-    );
-
-    const PrivateDashboard = () => (
-        <PrivateRoute>
-            <div>ようこそ！ {auth.username} さん！</div>
-            <button onClick={auth.signOut}>ログアウト</button>
-        </PrivateRoute>
-    );
 
     const tabs: Tab[] = [
         {
@@ -55,7 +37,7 @@ function App() {
         {
             id: 3,
             label: "マイページ",
-            content: auth.isAuthenticated ? <Mypage /> : <TopPage />,
+            content: auth.isAuthenticated ? <Mypage /> : <HomePage />,
         },
     ];
 
@@ -82,7 +64,7 @@ function App() {
                     } />
                     <Route path="/store/:id" element={<Store />} />
                     <Route path="/signin" element={<SignIn />} />
-                    <Route path="/dashboard" element={<PrivateDashboard />} />
+                    {/* <Route path="/dashboard" element={<PrivateDashboard />} /> */}
                 </Routes>
             </div>
         </Router>

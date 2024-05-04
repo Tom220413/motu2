@@ -1,21 +1,43 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/use-auth';
+import {
+    AuthenticationDetails,
+    CognitoUser
+} from "amazon-cognito-identity-js";
+import { userPool } from './Congnito'; // Import the user pool configuration from another file
 
 export function SignIn() {
-    const auth = useAuth();
-    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    const executeSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const result = await auth.signIn(username, password);
-        if (result.success) {
-            navigate({ pathname: '/dashboard' });
-        } else {
-            alert(result.message);
-        }
+    const executeSignIn = (event) => {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        const authenticationDetails = new AuthenticationDetails({
+            Username: username,
+            Password: password
+        });
+
+        const userData = {
+            Username: username,
+            Pool: userPool
+        };
+
+        const cognitoUser = new CognitoUser(userData);
+
+        cognitoUser.authenticateUser(authenticationDetails, {
+            onSuccess: function (result) {
+                console.log('Login successful:', result);
+                // Redirect to another route upon successful login
+                navigate('/home'); // Change '/home' to your desired route
+            },
+            onFailure: function (err) {
+                console.error('Login failed:', err);
+                // Optionally handle errors, e.g., show an alert or update component state
+                alert('Login failed: ' + err.message);
+            }
+        });
     };
 
     return (
@@ -39,7 +61,7 @@ export function SignIn() {
                 />
             </div>
             <button type="submit">ログイン</button>
-            <button type="submit">戻る</button>
+            <button onClick={() => navigate(-1)} type="button">戻る</button>
         </form>
     );
 }

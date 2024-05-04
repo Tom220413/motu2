@@ -1,119 +1,77 @@
-import { Auth } from 'aws-amplify';
-import Amplify from 'aws-amplify';
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import AwsConfigAuth from '../aws/auth';
 
-Amplify.configure({ Auth: AwsConfigAuth });
+import { userPool } from "../components/Congnito";
+import React, { useContext, createContext, useState, ReactNode, FunctionComponent } from 'react';
+import { CognitoUserAttribute, CognitoUserPool, AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
 
-interface UseAuth {
-    isLoading: boolean;
-    isAuthenticated: boolean;
-    username: string;
-    signUp: (username: string, password: string) => Promise<Result>;
-    confirmSignUp: (verificationCode: string) => Promise<Result>;
-    signIn: (username: string, password: string) => Promise<Result>;
+interface AuthContextType {
+    user: CognitoUser | null;
+    isAuthenticated: boolean; // 認証状態を表す
+    signUp: (username: string, password: string, email: string) => void;
+    signIn: (username: string, password: string) => void;
     signOut: () => void;
 }
 
-interface Result {
-    success: boolean;
-    message: string;
+const AuthContext = createContext<AuthContextType | null>(null);
+
+export function useAuth() {
+    return useContext(AuthContext);
 }
-
-const authContext = createContext({} as UseAuth)
-
-export const ProvideAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const auth = useProvideAuth();
-    return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+type Props = {
+    children?: React.ReactNode;
 };
 
-export const useAuth = () => {
-    return useContext(authContext);
-};
+export const ProvideAuth: React.FC<Props>= ({ children }) => {
+    const [user, setUser] = useState<CognitoUser | null>(null);
+    const isAuthenticated = Boolean(user);
 
-const useProvideAuth = (): UseAuth => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const signUp = (username: string, password: string, email: string) => {
+        const attributeList = [];
+        const dataEmail = { Name: "email", Value: email };
+        const attributeEmail = new CognitoUserAttribute(dataEmail);
+        attributeList.push(attributeEmail);
 
-    useEffect(() => {
-        Auth.currentAuthenticatedUser()
-            .then((result) => {
-                setUsername(result.username);
-                setIsAuthenticated(true);
-                setIsLoading(false);
-            })
-            .catch(() => {
-                setUsername('');
-                setIsAuthenticated(false);
-                setIsLoading(false);
-            });
-    }, []);
+        userPool.signUp(username, password, attributeList, [], (err, result) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            if (result) {
+                console.log('User name is ' + result.user.getUsername());
+                setUser(result.user);
+            }
+        });
+    };
 
-    const signUp = async (username: string, password: string) => {
-        try {
-            await Auth.signUp({ username, password });
-            setUsername(username);
-            setPassword(password);
-            return { success: true, message: '' };
-        } catch (error) {
-            return {
-                success: false,
-                message: error + '認証に失敗しました。',
-            };
+    const signIn = (username: string, password: string) => {
+        const authenticationDetails = new AuthenticationDetails({
+            Username: username,
+            Password: password
+        });
+
+        const userData = { Username: username, Pool: userPool };
+        const cognitoUser = new CognitoUser(userData);
+
+        cognitoUser.authenticateUser(authenticationDetails, {
+            onSuccess: result => {
+                console.log('Login successful:', result);
+                setUser(cognitoUser);
+            },
+            onFailure: err => {
+                console.error('Login failed:', err);
+            }
+        });
+    };
+
+    const signOut = () => {
+        const cognitoUser = userPool.getCurrentUser();
+        if (cognitoUser) {
+            cognitoUser.signOut();
+            setUser(null);
+            console.log('User logged out.');
         }
     };
 
-    const confirmSignUp = async (verificationCode: string) => {
-        try {
-            await Auth.confirmSignUp(username, verificationCode);
-            const result = await signIn(username, password);
-            setPassword('');
-            return result;
-        } catch (error) {
-            return {
-                success: false,
-                message: '認証に失敗しました。',
-            };
-        }
-    };
+    const value = { user, isAuthenticated, signUp, signIn, signOut };
 
-    const signIn = async (username: string, password: string) => {
-        try {
-            const result = await Auth.signIn(username, password);
-            setUsername(result.username);
-            setIsAuthenticated(true);
-            return { success: true, message: '' };
-        } catch (error) {
-            return {
-                success: false,
-                message: '認証に失敗しました。',
-            };
-        }
-    };
-
-    const signOut = async () => {
-        try {
-            await Auth.signOut();
-            setUsername('');
-            setIsAuthenticated(false);
-            return { success: true, message: '' };
-        } catch (error) {
-            return {
-                success: false,
-                message: 'ログアウトに失敗しました。',
-            };
-        }
-    };
-
-    return {
-        isLoading,
-        isAuthenticated,
-        username,
-        signUp,
-        confirmSignUp,
-        signIn,
-        signOut,
-    };
-};
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
