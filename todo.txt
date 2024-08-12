@@ -1,26 +1,40 @@
-残っているTODO
-・websocketの導入
-→indexのページのランキングとかレビューをリアルタイム更新するためにdbに定期的に取得しに行くためにwebscketを使用する
-・congnitoを使ってユーザー登録、ログインはできたのでログアウトとか確認する
-・ログインユーザーはヘッダーに名前表示
-・最新のレビューを動的に取得して表示する
-→スライダーは自動で流れるようにする
+・lintでcicdでpushしたら自動でチェック入れたい
+・
 
-ユーザーIDに紐づく、データの取得とかそこらへんがハードコードになっているはずから動的にとってこれるようにtokenからユーザーIDとか判定して行きたい
+やりたいこと
+・開発を進める
+・poetoryで環境を整えたい
 
-検討課題
-homepageのレビューのところは何を表示するべきか？
-ユーザー名(必須)
-ストア名(必須)
-レビューコメント(必須)
-何を食べたか(必須)
-写真(検討)
 
-インフラ関係
-awsで最小額で運用すること、コストはできるだけかけない
-→githubactionsとansibleを活用して、自動化を目指す
-https://qiita.com/masa3521/items/2aa17e1fda88fd535243
-https://qiita.com/okoppe8/items/dc1de147a36797442e4c
 
-clouadfrareとawsのダブルの構成
-https://note.com/delta_sevenrich/n/ne782c892ad20
+
+mypageの話
+useridを軸に、reviewの件数とか取得する
+→done
+storeコレクションのiine項目にあるuseridがある件数を取得する
+→done
+storeコレクションのfavorite項目にあるuseridがある件数を取得する
+→done
+
+あとはuserコレクションにある情報を返す
+
+webscketを導入するにあたって
+indexのページのランキングとかレビューをリアルタイム更新するためにdbに定期的に取得しに行くためにwebscketを使用する
+
+あとミックデザインはおすすめしない
+conponetsの配下でフォルダ切り分けした方がいい（ファイルはイメージ）
+
+ - context.tsx(ディレクトリにするかファイルにするかは要相談)
+    - component
+        - page(そのページでしか使わないもの)
+            - mypage
+                - MypageForm.tsx
+            - ranking
+                - RankngList.tsx
+        - parts(複数の箇所で使う共通パーツ)
+            - Form
+            - map
+        - layout(レイアウト)
+            - header
+            - Sidebar
+            - Footer
