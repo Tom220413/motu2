@@ -1,0 +1,44 @@
+name: lintcheck
+
+on: 
+    push:
+
+jobs:
+    build: 
+        runs_on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                    ref: ${{ github.event.pull_request.head.ref }}
+
+            - uses: actions/setup-node@v4
+              with:
+                node-version: 20
+                cache: npm
+            - uses: actions/cache@v4
+              id: node_modules_cache_id
+              env:
+                cache-name: cache-node-modules
+              with:
+                path: '**/node_odules'
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+            - run: echo '${{ toJSON(steps.node_modules_cache_id.outputs) }}'
+            - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+              run: npm ci
+            - run: npm ls --depth=0
+            - name: lint-fix
+                run: npm run lintfix
+            - name: Push changes if existing modified files
+                id: push-changes
+                run: |
+                git config --global user.email "bot@example.com"
+                git config --global user.name "bot"
+                git remote set-url origin https://x-access-token:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}
+                git diff --quiet --exit-code || git commit -am "Automated changes"
+                if [ $? -eq 0 ]; then
+                    echo "No changes to commit"
+                else
+                    git push
+                fi
+            - name: Test
+                run: npm test
